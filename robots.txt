@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /iyolme.apk
+
+Sitemap: https://iyolme.com/sitemap.xml

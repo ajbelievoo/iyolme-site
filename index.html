@@ -1,0 +1,860 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Iyolme — Go Live. Create. Earn.</title>
+  <meta name="description" content="Iyolme is a next-gen live streaming and short-video social app. Go live, post reels & stories, battle in PK, join audio rooms, send gifts — and turn your content into real earnings.">
+  <link rel="canonical" href="https://iyolme.com/">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Iyolme — Go Live. Create. Earn.">
+  <meta property="og:description" content="Live streaming, reels, PK battles, audio rooms & creator monetization — all in one app.">
+  <meta property="og:url" content="https://iyolme.com/">
+  <meta property="og:image" content="https://iyolme.com/brand/logo-icon.png">
+  <meta name="twitter:card" content="summary">
+  <meta name="theme-color" content="#05081a">
+  <link rel="icon" type="image/png" href="/brand/favicon.png">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Sora:wght@600;700;800&display=swap" rel="stylesheet">
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"SoftwareApplication","name":"Iyolme","operatingSystem":"Android","applicationCategory":"SocialApplication","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"description":"Live streaming, reels, stories, audio rooms, PK battles, gifts and creator monetization."}
+  </script>
+  <style>
+    :root {
+      --bg-0: #05081a;
+      --bg-1: #0a1030;
+      --panel: rgba(17, 24, 56, 0.62);
+      --panel-2: rgba(23, 31, 68, 0.75);
+      --border: rgba(120, 150, 255, 0.14);
+      --border-hi: rgba(139, 92, 246, 0.45);
+      --text: #eef1ff;
+      --muted: #93a0cf;
+      --cyan: #00e5ff;
+      --blue: #5b8cff;
+      --violet: #8b5cf6;
+      --magenta: #ff2ed1;
+      --orange: #ffb020;
+      --red: #ff3d71;
+      --grad: linear-gradient(100deg, var(--cyan) 0%, var(--blue) 30%, var(--magenta) 68%, var(--orange) 100%);
+      --grad-soft: linear-gradient(135deg, #7b5cff 0%, #ff2ed1 100%);
+      --ease: cubic-bezier(.16, 1, .3, 1);
+    }
+    * { box-sizing: border-box; margin: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      color: var(--text);
+      font-family: 'Inter', system-ui, sans-serif;
+      background: var(--bg-0);
+      min-height: 100vh; overflow-x: hidden;
+    }
+    body::before {
+      content: ""; position: fixed; inset: 0; z-index: -2;
+      background:
+        radial-gradient(900px 600px at 12% -8%, rgba(0,229,255,.16), transparent 60%),
+        radial-gradient(1000px 700px at 88% 8%, rgba(255,46,209,.14), transparent 60%),
+        radial-gradient(800px 600px at 50% 115%, rgba(255,176,32,.10), transparent 60%),
+        var(--bg-0);
+    }
+    body::after {
+      content: ""; position: fixed; inset: 0; z-index: -1; pointer-events: none;
+      background-image:
+        linear-gradient(rgba(120,150,255,.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(120,150,255,.05) 1px, transparent 1px);
+      background-size: 56px 56px;
+      mask-image: radial-gradient(ellipse 90% 60% at 50% 0%, #000 30%, transparent 75%);
+    }
+    a { color: var(--cyan); text-decoration: none; }
+    h1, h2, h3, .brand-name, .num { font-family: 'Sora', 'Inter', sans-serif; }
+    img { max-width: 100%; }
+    ::selection { background: rgba(255,46,209,.4); }
+
+    .reveal { opacity: 0; transform: translateY(28px); transition: opacity .7s var(--ease), transform .7s var(--ease); }
+    .reveal.in { opacity: 1; transform: none; }
+    .reveal.d1 { transition-delay: .08s; } .reveal.d2 { transition-delay: .16s; }
+    .reveal.d3 { transition-delay: .24s; } .reveal.d4 { transition-delay: .32s; }
+
+    .nav-wrap {
+      position: sticky; top: 0; z-index: 50;
+      backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+      background: rgba(5, 8, 26, .72);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav {
+      display: flex; align-items: center; justify-content: space-between;
+      max-width: 1180px; margin: 0 auto; padding: 13px 20px;
+    }
+    .brand { display: flex; align-items: center; gap: 11px; }
+    .brand img { width: 40px; height: 40px; border-radius: 11px;
+      box-shadow: 0 6px 24px rgba(139,92,246,.5); }
+    .brand-name {
+      font-weight: 800; font-size: 1.35rem; letter-spacing: .2px;
+      background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent;
+    }
+    .nav-links { display: flex; gap: 28px; align-items: center; font-size: .9rem; }
+    .nav-links a { color: var(--muted); font-weight: 500; transition: color .2s; position: relative; }
+    .nav-links a::after {
+      content: ""; position: absolute; left: 0; bottom: -5px; height: 2px; width: 0;
+      background: var(--grad); border-radius: 2px; transition: width .25s var(--ease);
+    }
+    .nav-links a:hover { color: var(--text); }
+    .nav-links a:hover::after { width: 100%; }
+
+    .btn-grad {
+      background: var(--grad); background-size: 160% 160%; color: #fff !important; border: none;
+      border-radius: 12px; padding: 13px 26px; font-weight: 700; font-size: .92rem;
+      box-shadow: 0 10px 30px rgba(255,46,209,.35); display: inline-flex; align-items: center; gap: 8px;
+      transition: transform .18s var(--ease), box-shadow .25s, background-position .4s;
+      cursor: pointer;
+    }
+    .btn-grad:hover { transform: translateY(-2px); background-position: 90% 50%;
+      box-shadow: 0 14px 40px rgba(0,229,255,.4); }
+    .btn-grad.lg { padding: 17px 34px; font-size: 1.02rem; border-radius: 15px; }
+    .btn-ghost {
+      background: rgba(139,92,246,.10); color: var(--text) !important;
+      border: 1px solid var(--border); border-radius: 12px;
+      padding: 13px 26px; font-weight: 600; font-size: .92rem;
+      display: inline-flex; align-items: center; gap: 8px;
+      transition: background .2s, transform .18s var(--ease), border-color .2s;
+    }
+    .btn-ghost:hover { background: rgba(139,92,246,.22); transform: translateY(-2px); border-color: var(--border-hi); }
+
+    .hero {
+      max-width: 1180px; margin: 0 auto; padding: 72px 20px 30px;
+      display: grid; grid-template-columns: 1.05fr .95fr; gap: 48px; align-items: center;
+    }
+    .pill {
+      display: inline-flex; align-items: center; gap: 8px; font-size: .76rem; font-weight: 600;
+      color: var(--cyan); border: 1px solid rgba(0,229,255,.3); background: rgba(0,229,255,.07);
+      padding: 8px 16px; border-radius: 100px; margin-bottom: 26px; letter-spacing: .5px;
+    }
+    .pill .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--red);
+      box-shadow: 0 0 0 0 rgba(255,61,113,.7); animation: pulse 1.6s infinite; }
+    @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(255,61,113,.7); } 70% { box-shadow: 0 0 0 9px rgba(255,61,113,0); } 100% { box-shadow: 0 0 0 0 rgba(255,61,113,0); } }
+    .hero h1 {
+      font-weight: 800; font-size: clamp(2.6rem, 5.6vw, 4.2rem); line-height: 1.04;
+      letter-spacing: -1.8px; margin-bottom: 22px;
+    }
+    .hero h1 .g {
+      background: var(--grad); background-size: 220% 220%;
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+      animation: gshift 7s ease infinite;
+    }
+    @keyframes gshift { 0%,100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
+    .hero p.lead { color: var(--muted); font-size: 1.13rem; max-width: 520px; margin-bottom: 34px; line-height: 1.72; }
+    .hero-cta { display: flex; gap: 14px; flex-wrap: wrap; align-items: center; }
+    .hero-mini { margin-top: 26px; display: flex; gap: 22px; color: var(--muted); font-size: .84rem; flex-wrap: wrap; }
+    .hero-mini i { color: var(--cyan); margin-right: 6px; }
+
+    .phone-stage { position: relative; display: flex; justify-content: center; perspective: 1200px; }
+    .orb { position: absolute; border-radius: 50%; filter: blur(70px); z-index: 0; opacity: .55; }
+    .orb.o1 { width: 340px; height: 340px; background: rgba(255,46,209,.4); top: -40px; right: 6%; animation: drift 11s ease-in-out infinite; }
+    .orb.o2 { width: 300px; height: 300px; background: rgba(0,229,255,.32); bottom: 0; left: 4%; animation: drift 13s ease-in-out infinite reverse; }
+    @keyframes drift { 0%,100% { transform: translate(0,0); } 50% { transform: translate(14px,-18px); } }
+
+    .phone {
+      position: relative; z-index: 2; width: 292px; height: 600px; border-radius: 44px;
+      background: #0b1024; border: 1px solid rgba(160,170,255,.22);
+      box-shadow: 0 0 0 10px #10152e, 0 0 0 11px rgba(160,170,255,.14),
+        0 40px 90px rgba(0,0,0,.6), 0 0 90px rgba(139,92,246,.28);
+      overflow: hidden; transform: rotateY(-8deg) rotateX(3deg);
+      transition: transform .6s var(--ease);
+    }
+    .phone:hover { transform: rotateY(-3deg) rotateX(1deg); }
+    .phone .notch {
+      position: absolute; top: 12px; left: 50%; transform: translateX(-50%);
+      width: 106px; height: 26px; border-radius: 20px; background: #05070f; z-index: 6;
+      border: 1px solid rgba(160,170,255,.1);
+    }
+    .live-bg {
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(340px 300px at 75% 18%, rgba(255,46,209,.5), transparent 65%),
+        radial-gradient(320px 320px at 18% 78%, rgba(0,229,255,.34), transparent 65%),
+        linear-gradient(170deg, #1a1150 0%, #35106b 45%, #0a0f2e 100%);
+      animation: livehue 12s ease-in-out infinite alternate;
+    }
+    @keyframes livehue { 0% { filter: hue-rotate(0deg); } 100% { filter: hue-rotate(28deg); } }
+    .live-top {
+      position: absolute; top: 48px; left: 12px; right: 12px; z-index: 5;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .host-pill {
+      display: flex; align-items: center; gap: 8px; padding: 5px 10px 5px 5px;
+      background: rgba(8,10,28,.6); border-radius: 100px; backdrop-filter: blur(8px);
+      border: 1px solid rgba(255,255,255,.12);
+    }
+    .host-pill img { width: 30px; height: 30px; border-radius: 50%; }
+    .host-pill .hn { font-size: .68rem; font-weight: 700; line-height: 1.15; }
+    .host-pill .hn small { display: block; font-weight: 500; color: #ffb3e2; font-size: .58rem; }
+    .follow-chip {
+      background: var(--grad); border-radius: 100px; padding: 4px 10px;
+      font-size: .6rem; font-weight: 800; color: #fff;
+    }
+    .viewers {
+      display: flex; align-items: center; gap: 6px; font-size: .68rem; font-weight: 700;
+      background: rgba(8,10,28,.6); padding: 7px 12px; border-radius: 100px;
+      border: 1px solid rgba(255,255,255,.12);
+    }
+    .live-tag {
+      position: absolute; top: 92px; left: 12px; z-index: 5;
+      background: linear-gradient(90deg, #ff3d71, #ff7a3d); color: #fff;
+      font-size: .62rem; font-weight: 800; letter-spacing: 1.4px;
+      padding: 5px 12px; border-radius: 8px; display: inline-flex; align-items: center; gap: 6px;
+    }
+    .live-tag i { font-size: .5rem; animation: pulse 1.6s infinite; }
+    .comments { position: absolute; left: 12px; bottom: 86px; width: 78%; z-index: 4; display: flex; flex-direction: column; gap: 7px; }
+    .cmt {
+      display: flex; gap: 7px; align-items: flex-start;
+      background: rgba(8,10,28,.55); backdrop-filter: blur(6px);
+      border: 1px solid rgba(255,255,255,.1); border-radius: 14px; padding: 7px 10px;
+      font-size: .66rem; line-height: 1.35;
+      animation: cmtIn .5s var(--ease) both;
+    }
+    @keyframes cmtIn { from { opacity: 0; transform: translateY(16px) scale(.92); } to { opacity: 1; transform: none; } }
+    .cmt.out { transition: opacity .4s, transform .4s; opacity: 0; transform: translateY(-10px); }
+    .cmt .av { width: 20px; height: 20px; border-radius: 50%; flex: none; display: grid; place-items: center;
+      font-size: .52rem; font-weight: 800; color: #fff; }
+    .cmt b { display: block; font-size: .62rem; color: #9fd8ff; font-weight: 700; }
+    .gift {
+      position: absolute; right: 14px; bottom: 120px; z-index: 5;
+      font-size: 1.5rem; animation: giftFly 3.4s var(--ease) forwards;
+      text-shadow: 0 4px 20px rgba(255,46,209,.8);
+      display: flex; align-items: center; gap: 5px;
+    }
+    .gift small { font-size: .62rem; font-weight: 800; color: #ffe08a; }
+    @keyframes giftFly {
+      0% { opacity: 0; transform: translateY(30px) scale(.5) rotate(-12deg); }
+      15% { opacity: 1; transform: translateY(0) scale(1.15) rotate(4deg); }
+      30% { transform: translateY(-14px) scale(1); }
+      100% { opacity: 0; transform: translateY(-240px) scale(.85) rotate(10deg); }
+    }
+    .heart {
+      position: absolute; right: 26px; bottom: 90px; z-index: 4; font-size: .9rem;
+      color: var(--magenta); animation: heartUp 2.6s ease-out forwards; opacity: 0;
+    }
+    @keyframes heartUp {
+      0% { opacity: 0; transform: translateY(0) scale(.6); }
+      20% { opacity: 1; }
+      100% { opacity: 0; transform: translateY(-170px) translateX(-18px) scale(1.1); }
+    }
+    .live-bottom {
+      position: absolute; left: 12px; right: 12px; bottom: 14px; z-index: 5;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .say-hi {
+      flex: 1; background: rgba(8,10,28,.6); border: 1px solid rgba(255,255,255,.12);
+      border-radius: 100px; padding: 9px 14px; font-size: .66rem; color: #aab; backdrop-filter: blur(8px);
+    }
+    .act {
+      width: 38px; height: 38px; border-radius: 50%; display: grid; place-items: center;
+      background: rgba(8,10,28,.6); border: 1px solid rgba(255,255,255,.12);
+      font-size: .92rem; backdrop-filter: blur(8px); color: #dfe6ff;
+    }
+    .act.gift-btn { background: var(--grad-soft); border: none; color: #fff; }
+    .chip {
+      position: absolute; z-index: 3; display: flex; align-items: center; gap: 9px;
+      background: var(--panel-2); border: 1px solid var(--border-hi);
+      backdrop-filter: blur(12px); border-radius: 16px; padding: 11px 16px;
+      font-size: .74rem; font-weight: 600; box-shadow: 0 18px 44px rgba(0,0,0,.45);
+      animation: float 5.5s ease-in-out infinite; white-space: nowrap;
+    }
+    .chip i { font-size: 1.05rem; }
+    .chip.c1 { top: 12%; left: -2%; animation-delay: .4s; } .chip.c1 i { color: var(--cyan); }
+    .chip.c2 { top: 44%; right: -6%; animation-delay: 1.2s; } .chip.c2 i { color: var(--orange); }
+    .chip.c3 { bottom: 9%; left: 2%; animation-delay: 2s; } .chip.c3 i { color: var(--magenta); }
+    @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-11px); } }
+
+    .stats {
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      max-width: 1180px; margin: 46px auto 0; padding: 0 20px;
+    }
+    .stat {
+      text-align: center; padding: 26px 14px;
+      border: 1px solid var(--border); background: var(--panel);
+      backdrop-filter: blur(10px);
+    }
+    .stat:first-child { border-radius: 18px 0 0 18px; }
+    .stat:last-child { border-radius: 0 18px 18px 0; }
+    .stat + .stat { border-left: none; }
+    .stat b.num {
+      font-size: clamp(1.5rem, 3vw, 2rem); display: block;
+      background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent;
+    }
+    .stat span { color: var(--muted); font-size: .78rem; font-weight: 500; }
+
+    .marquee {
+      margin: 74px 0 0; padding: 15px 0; overflow: hidden; white-space: nowrap;
+      border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+      background: rgba(10,16,48,.5); position: relative;
+      mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+      -webkit-mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+    }
+    .marquee .track { display: inline-flex; gap: 44px; padding-right: 44px; animation: mq 26s linear infinite; }
+    .marquee span { font-family: 'Sora'; font-weight: 700; font-size: .86rem; letter-spacing: 2.2px; color: var(--muted); display: inline-flex; align-items: center; gap: 44px; }
+    .marquee span i { color: var(--magenta); font-size: .7rem; }
+    @keyframes mq { to { transform: translateX(-50%); } }
+
+    .section { max-width: 1180px; margin: 0 auto; padding: 84px 20px 20px; }
+    .section-tag {
+      text-align: center; font-size: .74rem; font-weight: 700; letter-spacing: 3px;
+      text-transform: uppercase; color: var(--cyan); margin-bottom: 13px;
+    }
+    .section h2 { font-weight: 800; font-size: clamp(1.8rem, 3.6vw, 2.4rem); text-align: center; margin-bottom: 12px; letter-spacing: -.6px; }
+    .section .sub { color: var(--muted); text-align: center; margin-bottom: 46px; font-size: 1rem; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(252px, 1fr)); gap: 16px; }
+    .card {
+      background: var(--panel); border: 1px solid var(--border); border-radius: 18px;
+      padding: 28px 24px; backdrop-filter: blur(10px); position: relative; overflow: hidden;
+      transition: transform .25s var(--ease), border-color .25s, box-shadow .3s;
+    }
+    .card::before {
+      content: ""; position: absolute; inset: 0 0 auto 0; height: 2px;
+      background: var(--grad); opacity: 0; transition: opacity .25s;
+    }
+    .card::after {
+      content: ""; position: absolute; width: 190px; height: 190px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(139,92,246,.16), transparent 65%);
+      top: -90px; right: -70px; opacity: 0; transition: opacity .3s;
+    }
+    .card:hover { transform: translateY(-5px); border-color: var(--border-hi); box-shadow: 0 22px 50px rgba(10,14,40,.6); }
+    .card:hover::before, .card:hover::after { opacity: 1; }
+    .card i {
+      font-size: 1.3rem; display: inline-grid; place-items: center;
+      width: 52px; height: 52px; border-radius: 15px; margin-bottom: 16px;
+      background: linear-gradient(135deg, rgba(0,229,255,.14), rgba(255,46,209,.14));
+      color: var(--cyan); border: 1px solid rgba(0,229,255,.18);
+    }
+    .card h5 { font-weight: 700; margin-bottom: 7px; font-size: 1.02rem; }
+    .card p { color: var(--muted); font-size: .88rem; margin: 0; line-height: 1.65; }
+
+    .showcase { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: center; }
+    .showcase.flip .sc-text { order: 2; }
+    .sc-visual { position: relative; display: flex; justify-content: center; }
+    .mini-phone {
+      width: 236px; height: 470px; border-radius: 36px; position: relative; overflow: hidden;
+      background: #0b1024; border: 1px solid rgba(160,170,255,.2);
+      box-shadow: 0 0 0 8px #10152e, 0 0 0 9px rgba(160,170,255,.12), 0 30px 70px rgba(0,0,0,.55);
+    }
+    .mp-notch { position: absolute; top: 10px; left: 50%; transform: translateX(-50%); width: 84px; height: 20px; border-radius: 14px; background: #05070f; z-index: 5; }
+    .reel-bg { position: absolute; inset: 0; background: linear-gradient(165deg, #101b4d, #5a0e46 55%, #160a33); }
+    .reel-side { position: absolute; right: 10px; bottom: 92px; display: flex; flex-direction: column; gap: 15px; align-items: center; z-index: 4; }
+    .reel-side .ra { font-size: 1.15rem; text-align: center; color: #fff; }
+    .reel-side .ra small { display: block; font-size: .52rem; color: #cdd6ff; margin-top: 3px; }
+    .reel-cap { position: absolute; left: 12px; bottom: 24px; z-index: 4; font-size: .66rem; line-height: 1.5; }
+    .reel-cap b { font-size: .7rem; }
+    .reel-cap .tag { color: var(--cyan); }
+    .reel-progress { position: absolute; left: 0; right: 0; bottom: 0; height: 3px; background: rgba(255,255,255,.15); z-index: 4; }
+    .reel-progress i { display: block; height: 100%; width: 40%; background: var(--grad); animation: prog 6s linear infinite; }
+    @keyframes prog { from { width: 0; } to { width: 100%; } }
+    .room-bg { position: absolute; inset: 0; background: linear-gradient(165deg, #0e2a45, #173a63 50%, #0a1030); }
+    .room-title { position: absolute; top: 44px; left: 0; right: 0; text-align: center; font-size: .7rem; font-weight: 700; z-index: 4; color: #eaf2ff; }
+    .room-title small { display: block; color: #9fd8ff; font-weight: 500; font-size: .56rem; margin-top: 3px; }
+    .seats { position: absolute; top: 92px; left: 0; right: 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px 6px; padding: 0 18px; z-index: 4; }
+    .seat { display: flex; flex-direction: column; align-items: center; gap: 5px; }
+    .seat .sav {
+      width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center;
+      font-size: .58rem; font-weight: 800; color: #fff; border: 2px solid rgba(255,255,255,.28);
+    }
+    .seat.talking .sav { border-color: var(--cyan); box-shadow: 0 0 0 3px rgba(0,229,255,.25); animation: talking 1.4s ease-in-out infinite; }
+    @keyframes talking { 0%,100% { box-shadow: 0 0 0 3px rgba(0,229,255,.28); } 50% { box-shadow: 0 0 0 7px rgba(0,229,255,.1); } }
+    .seat span { font-size: .52rem; color: #cdd6ff; }
+    .room-bar { position: absolute; left: 12px; right: 12px; bottom: 16px; display: flex; gap: 8px; z-index: 4; }
+    .room-bar .rb { flex: 1; text-align: center; background: rgba(8,10,28,.55); border: 1px solid rgba(255,255,255,.1); border-radius: 12px; padding: 8px 0; font-size: .56rem; font-weight: 700; color: #dbe4ff; }
+    .pk-bg { position: absolute; inset: 0; display: flex; }
+    .pk-bg > div { flex: 1; position: relative; }
+    .pk-l { background: linear-gradient(180deg, #3d1063, #1a0b3f); }
+    .pk-r { background: linear-gradient(180deg, #0b3a63, #0a1a3f); }
+    .pk-vs {
+      position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); z-index: 5;
+      width: 46px; height: 46px; border-radius: 50%; display: grid; place-items: center;
+      background: var(--grad); font-weight: 800; font-size: .78rem; color: #fff;
+      box-shadow: 0 0 30px rgba(255,46,209,.7); animation: vspulse 1.8s ease-in-out infinite;
+    }
+    @keyframes vspulse { 0%,100% { transform: translate(-50%,-50%) scale(1); } 50% { transform: translate(-50%,-50%) scale(1.14); } }
+    .pk-host { position: absolute; top: 22%; transform: translateX(-50%); text-align: center; z-index: 4; }
+    .pk-host .ph { width: 52px; height: 52px; border-radius: 50%; display: grid; place-items: center; font-weight: 800; font-size: .68rem; margin: 0 auto 5px; border: 2px solid rgba(255,255,255,.35); color:#fff; }
+    .pk-host span { font-size: .54rem; font-weight: 700; color: #fff; }
+    .pk-score { position: absolute; bottom: 26%; left: 10px; right: 10px; display: flex; height: 8px; z-index: 4; }
+    .pk-score i { display: block; height: 100%; }
+    .pk-score .pl { width: 58%; background: linear-gradient(90deg, #ff2ed1, #ff7a3d); border-radius: 8px 0 0 8px; animation: pkbar 4s ease-in-out infinite alternate; }
+    .pk-score .pr { flex: 1; background: linear-gradient(90deg, #00e5ff, #5b8cff); border-radius: 0 8px 8px 0; }
+    @keyframes pkbar { from { width: 62%; } to { width: 44%; } }
+    .pk-timer { position: absolute; top: 12%; left: 50%; transform: translateX(-50%); font-size: .62rem; font-weight: 800; background: rgba(8,10,28,.6); padding: 5px 12px; border-radius: 100px; z-index: 4; border: 1px solid rgba(255,255,255,.15); }
+
+    .sc-text h3 { font-weight: 800; font-size: clamp(1.5rem, 2.6vw, 2rem); margin-bottom: 14px; letter-spacing: -.5px; }
+    .sc-text p { color: var(--muted); line-height: 1.75; margin-bottom: 22px; font-size: .98rem; }
+    .sc-list { display: flex; flex-direction: column; gap: 13px; }
+    .sc-list li { list-style: none; display: flex; gap: 12px; align-items: flex-start; font-size: .92rem; color: #ccd4f5; }
+    .sc-list i { color: var(--cyan); font-size: 1rem; margin-top: 2px; }
+
+    .earn-band {
+      position: relative; overflow: hidden;
+      background: linear-gradient(160deg, rgba(139,92,246,.16), rgba(255,46,209,.10) 55%, rgba(255,176,32,.08));
+      border: 1px solid rgba(139,92,246,.32); border-radius: 26px;
+      padding: 60px 36px; text-align: center; backdrop-filter: blur(12px);
+    }
+    .earn-band::after {
+      content: ""; position: absolute; width: 440px; height: 440px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(255,46,209,.22), transparent 65%);
+      top: -210px; right: -150px; pointer-events: none;
+    }
+    .earn-band::before {
+      content: ""; position: absolute; width: 380px; height: 380px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(0,229,255,.18), transparent 65%);
+      bottom: -190px; left: -120px; pointer-events: none;
+    }
+    .earn-band h2 { margin-bottom: 13px; }
+    .earn-band p { color: var(--muted); max-width: 640px; margin: 0 auto 34px; line-height: 1.7; position: relative; z-index: 1; }
+    .earn-band p b { color: var(--orange); }
+    .earn-steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; max-width: 780px; margin: 0 auto 38px; position: relative; z-index: 1; }
+    .estep { background: rgba(8,10,30,.55); border: 1px solid rgba(139,92,246,.3); border-radius: 16px; padding: 22px 16px; }
+    .estep .en { width: 36px; height: 36px; margin: 0 auto 12px; border-radius: 50%; display: grid; place-items: center;
+      background: var(--grad); font-weight: 800; font-size: .9rem; color: #fff; }
+    .estep b { display: block; font-size: .92rem; margin-bottom: 5px; }
+    .estep span { font-size: .78rem; color: var(--muted); }
+
+    .vip-strip { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 14px; }
+    .vip {
+      border: 1px solid var(--border); border-radius: 16px; padding: 22px 18px; text-align: center;
+      background: var(--panel); transition: transform .2s var(--ease), border-color .2s;
+    }
+    .vip:hover { transform: translateY(-4px); border-color: rgba(255,176,32,.45); }
+    .vip i { font-size: 1.5rem; margin-bottom: 10px; display: block; color: var(--orange); }
+    .vip b { font-size: .9rem; display: block; margin-bottom: 4px; }
+    .vip span { font-size: .76rem; color: var(--muted); }
+
+    .faq { max-width: 760px; margin: 0 auto; }
+    .faq details {
+      background: var(--panel); border: 1px solid var(--border); border-radius: 15px;
+      margin-bottom: 12px; overflow: hidden; transition: border-color .2s;
+    }
+    .faq details[open] { border-color: var(--border-hi); }
+    .faq summary {
+      padding: 19px 22px; font-weight: 700; font-size: .95rem; cursor: pointer;
+      display: flex; align-items: center; justify-content: space-between; gap: 14px;
+      list-style: none;
+    }
+    .faq summary::-webkit-details-marker { display: none; }
+    .faq summary::after { content: "\f282"; font-family: "bootstrap-icons"; color: var(--muted); transition: transform .25s; font-size: .8rem; }
+    .faq details[open] summary::after { transform: rotate(180deg); color: var(--cyan); }
+    .faq .ans { padding: 0 22px 20px; color: var(--muted); font-size: .89rem; line-height: 1.7; }
+
+    .dl-band { text-align: center; position: relative; overflow: hidden; border-radius: 26px; padding: 64px 30px;
+      border: 1px solid var(--border-hi);
+      background:
+        radial-gradient(500px 280px at 50% -20%, rgba(255,46,209,.24), transparent 70%),
+        var(--panel);
+    }
+    .dl-band img.app-ic { width: 92px; height: 92px; border-radius: 24px; margin-bottom: 24px;
+      box-shadow: 0 0 0 1px rgba(255,255,255,.1), 0 20px 60px rgba(255,46,209,.4);
+      animation: float 5s ease-in-out infinite; }
+    .dl-band h2 { margin-bottom: 10px; }
+    .dl-band p { color: var(--muted); margin-bottom: 30px; }
+    .dl-note { margin-top: 20px; font-size: .76rem; color: var(--muted); }
+    .dl-note i { color: var(--cyan); }
+
+    footer {
+      border-top: 1px solid var(--border); margin-top: 80px;
+      background: rgba(5,8,26,.75); backdrop-filter: blur(10px);
+    }
+    .foot-grid {
+      max-width: 1180px; margin: 0 auto; padding: 52px 20px 30px;
+      display: grid; grid-template-columns: 1.4fr 1fr 1fr 1fr; gap: 36px;
+    }
+    .foot-brand { display: flex; align-items: center; gap: 11px; margin-bottom: 15px; }
+    .foot-brand img { width: 36px; height: 36px; border-radius: 10px; }
+    .foot-brand b { font-family: 'Sora'; font-size: 1.1rem; }
+    .foot-grid p { color: var(--muted); font-size: .84rem; line-height: 1.7; max-width: 300px; }
+    .foot-col b { display: block; font-size: .82rem; margin-bottom: 15px; letter-spacing: 1px; text-transform: uppercase; color: #cdd6ff; }
+    .foot-col a { display: block; color: var(--muted); font-size: .86rem; margin-bottom: 10px; transition: color .2s; }
+    .foot-col a:hover { color: var(--cyan); }
+    .foot-bottom {
+      border-top: 1px solid var(--border); padding: 20px; text-align: center;
+      color: var(--muted); font-size: .8rem;
+    }
+
+    .toast-live {
+      position: fixed; right: 22px; bottom: 22px; z-index: 90;
+      background: var(--panel-2); border: 1px solid var(--border-hi); border-radius: 15px;
+      padding: 13px 18px; font-size: .8rem; display: flex; align-items: center; gap: 10px;
+      backdrop-filter: blur(14px); box-shadow: 0 18px 50px rgba(0,0,0,.5);
+      transform: translateY(140%); transition: transform .5s var(--ease);
+    }
+    .toast-live.show { transform: none; }
+    .toast-live .tav { width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center;
+      font-size: .6rem; font-weight: 800; color: #fff; flex: none; }
+    .toast-live b { font-size: .8rem; }
+    .toast-live span { color: var(--muted); font-size: .72rem; display: block; }
+
+    @media (max-width: 920px) {
+      .hero { grid-template-columns: 1fr; text-align: center; padding-top: 54px; }
+      .hero p.lead { margin-inline: auto; }
+      .hero-cta, .hero-mini { justify-content: center; }
+      .phone-stage { margin-top: 14px; }
+      .chip.c1 { left: 0; } .chip.c2 { right: 0; } .chip.c3 { left: 4%; }
+      .showcase { grid-template-columns: 1fr; gap: 36px; }
+      .showcase.flip .sc-text { order: 0; }
+      .stats { grid-template-columns: repeat(2, 1fr); }
+      .stat { border-radius: 0 !important; }
+      .stat:nth-child(odd) { border-left: 1px solid var(--border); }
+      .stat:nth-child(n+3) { border-top: none; }
+      .earn-steps { grid-template-columns: 1fr; }
+      .foot-grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 640px) {
+      .nav-links { display: none; }
+      .phone { width: 262px; height: 540px; }
+      .foot-grid { grid-template-columns: 1fr; gap: 28px; }
+      .chip { font-size: .68rem; padding: 9px 12px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="nav-wrap">
+    <nav class="nav">
+      <div class="brand">
+        <img src="/brand/logo-mark.png" alt="Iyolme logo">
+        <div class="brand-name">Iyolme</div>
+      </div>
+      <div class="nav-links">
+        <a href="#features">Features</a>
+        <a href="#showcase">Inside the App</a>
+        <a href="#earn">Earn</a>
+        <a href="#vip">VIP</a>
+        <a href="#faq">FAQ</a>
+      </div>
+      <a class="btn-grad" href="https://play.google.com/store/apps/details?id=com.vidmite.app"><i class="bi bi-google-play"></i>Download App</a>
+    </nav>
+  </div>
+
+  <header class="hero">
+    <div>
+      <div class="pill"><span class="dot"></span> LIVE STREAMING &middot; REELS &middot; PK BATTLES &middot; AUDIO ROOMS</div>
+      <h1>Go Live. Create.<br><span class="g">Earn with Iyolme.</span></h1>
+      <p class="lead">Iyolme is a next-gen live streaming &amp; short-video social app. Broadcast in HD, post reels and stories, join audio rooms, battle in PK, receive gifts — and turn your content into real earnings.</p>
+      <div class="hero-cta">
+        <a class="btn-grad lg" href="https://play.google.com/store/apps/details?id=com.vidmite.app"><i class="bi bi-google-play"></i>Get it on Google Play</a>
+        <a class="btn-ghost" href="/iyolme.apk"><i class="bi bi-android2"></i>Direct APK</a>
+      </div>
+      <div class="hero-mini">
+        <span><i class="bi bi-google-play"></i>10K+ downloads on Play Store</span>
+        <span><i class="bi bi-shield-check"></i>Free &middot; Rated Teen</span>
+        <span><i class="bi bi-gift"></i>Gifts &amp; real payouts</span>
+      </div>
+    </div>
+
+    <div class="phone-stage">
+      <div class="orb o1"></div><div class="orb o2"></div>
+      <div class="phone" id="phone">
+        <div class="notch"></div>
+        <div class="live-bg"></div>
+        <div class="live-top">
+          <div class="host-pill">
+            <img src="/brand/logo-icon.png" alt="host">
+            <div class="hn">Priya Sharma<small>2.4k followers</small></div>
+            <div class="follow-chip">Follow</div>
+          </div>
+          <div class="viewers"><i class="bi bi-eye-fill"></i><span id="viewerCount">1,248</span></div>
+        </div>
+        <div class="live-tag"><i class="bi bi-circle-fill"></i>LIVE</div>
+        <div class="comments" id="comments"></div>
+        <div class="live-bottom">
+          <div class="say-hi">Say hi...</div>
+          <div class="act"><i class="bi bi-share"></i></div>
+          <div class="act gift-btn"><i class="bi bi-gift-fill"></i></div>
+        </div>
+      </div>
+      <div class="chip c1"><i class="bi bi-gem"></i>+500 Diamonds received</div>
+      <div class="chip c2"><i class="bi bi-trophy-fill"></i>PK Win streak ×5</div>
+      <div class="chip c3"><i class="bi bi-cash-coin"></i>Beans → Withdraw anytime</div>
+    </div>
+  </header>
+
+  <div class="stats reveal">
+    <div class="stat"><b class="num" data-count="10" data-suffix="K+">0</b><span>Play Store Downloads</span></div>
+    <div class="stat"><b class="num" data-count="26">0</b><span>AI-Powered Features</span></div>
+    <div class="stat"><b class="num" data-count="10">0</b><span>VIP Privilege Tiers</span></div>
+    <div class="stat"><b class="num" data-count="24" data-suffix="/7">0</b><span>Live Always On</span></div>
+  </div>
+
+  <div class="marquee" aria-hidden="true">
+    <div class="track">
+      <span>LIVE HD <i class="bi bi-star-fill"></i> REELS <i class="bi bi-star-fill"></i> STORIES <i class="bi bi-star-fill"></i> AUDIO ROOMS <i class="bi bi-star-fill"></i> PK BATTLES <i class="bi bi-star-fill"></i> 3D GIFTS <i class="bi bi-star-fill"></i> VIP &amp; SVIP <i class="bi bi-star-fill"></i> FAMILY &amp; CP <i class="bi bi-star-fill"></i> CREATOR DASHBOARD <i class="bi bi-star-fill"></i> AI FEATURES <i class="bi bi-star-fill"></i> VERIFIED BADGES <i class="bi bi-star-fill"></i></span>
+      <span>LIVE HD <i class="bi bi-star-fill"></i> REELS <i class="bi bi-star-fill"></i> STORIES <i class="bi bi-star-fill"></i> AUDIO ROOMS <i class="bi bi-star-fill"></i> PK BATTLES <i class="bi bi-star-fill"></i> 3D GIFTS <i class="bi bi-star-fill"></i> VIP &amp; SVIP <i class="bi bi-star-fill"></i> FAMILY &amp; CP <i class="bi bi-star-fill"></i> CREATOR DASHBOARD <i class="bi bi-star-fill"></i> AI FEATURES <i class="bi bi-star-fill"></i> VERIFIED BADGES <i class="bi bi-star-fill"></i></span>
+    </div>
+  </div>
+
+  <section class="section" id="features">
+    <div class="section-tag reveal">Features</div>
+    <h2 class="reveal">Everything a creator needs</h2>
+    <div class="sub reveal">One app for streaming, content, community and income.</div>
+    <div class="grid">
+      <div class="card reveal"><i class="bi bi-broadcast"></i><h5>Live Streaming</h5><p>Go live in HD with beauty filters, guest seats, games, gifts and real-time chat.</p></div>
+      <div class="card reveal d1"><i class="bi bi-camera-reels"></i><h5>Reels &amp; Music Editor</h5><p>Shoot, trim, mix music &amp; apply filters — a full reel studio inside the app.</p></div>
+      <div class="card reveal d2"><i class="bi bi-clock-history"></i><h5>Stories</h5><p>24-hour stories with text, stickers and music — see exactly who viewed yours.</p></div>
+      <div class="card reveal d3"><i class="bi bi-mic"></i><h5>Audio Rooms</h5><p>Drop-in voice rooms with seats, moderators, party games and on-mic guests.</p></div>
+      <div class="card reveal"><i class="bi bi-lightning-charge"></i><h5>PK Battles</h5><p>Challenge other hosts in timed gift battles, win streaks and climb rankings.</p></div>
+      <div class="card reveal d1"><i class="bi bi-gift"></i><h5>Gifts &amp; SVIP</h5><p>3D animated gifts, lucky bags, entrance effects, VIP tiers and privileges.</p></div>
+      <div class="card reveal d2"><i class="bi bi-robot"></i><h5>AI Inside</h5><p>Voice changer, spatial audio, smart matchmaking, dynamic gifts &amp; more.</p></div>
+      <div class="card reveal d3"><i class="bi bi-people"></i><h5>Family &amp; CP</h5><p>Build families, couple up with CP, level bonds and unlock exclusive perks.</p></div>
+      <div class="card reveal"><i class="bi bi-patch-check"></i><h5>Verified Badge</h5><p>Apply for the blue tick and stand out as a trusted creator.</p></div>
+      <div class="card reveal d1"><i class="bi bi-graph-up-arrow"></i><h5>Pro Dashboard</h5><p>Views, followers, reach and earnings — creator analytics at a glance.</p></div>
+      <div class="card reveal d2"><i class="bi bi-rocket-takeoff"></i><h5>Boost Posts</h5><p>Promote your reels &amp; posts with Diamonds and reach new audiences.</p></div>
+      <div class="card reveal d3"><i class="bi bi-shield-lock"></i><h5>Safe &amp; Moderated</h5><p>Report tools, host compliance guard, username restrictions &amp; privacy controls.</p></div>
+    </div>
+  </section>
+
+  <section class="section" id="showcase">
+    <div class="section-tag reveal">Inside the App</div>
+    <h2 class="reveal">Designed to keep you hooked</h2>
+    <div class="sub reveal">A quick look at what your fans will experience.</div>
+
+    <div class="showcase">
+      <div class="sc-visual reveal">
+        <div class="mini-phone">
+          <div class="mp-notch"></div>
+          <div class="pk-bg"><div class="pk-l"></div><div class="pk-r"></div></div>
+          <div class="pk-timer">⏱ 02:47</div>
+          <div class="pk-host" style="left:25%"><div class="ph" style="background:linear-gradient(135deg,#ff2ed1,#7b5cff)">PS</div><span>@priyasharma</span></div>
+          <div class="pk-host" style="left:75%"><div class="ph" style="background:linear-gradient(135deg,#00c2ff,#2d5bff)">RV</div><span>@rahulv</span></div>
+          <div class="pk-vs">VS</div>
+          <div class="pk-score"><i class="pl"></i><i class="pr"></i></div>
+        </div>
+      </div>
+      <div class="sc-text reveal d1">
+        <h3>PK Battles that get hearts racing</h3>
+        <p>Two hosts. One timer. Fans pick sides with gifts and the score bar swings live. Win streaks, rankings and glory — the most addictive format in live streaming.</p>
+        <ul class="sc-list" style="padding:0">
+          <li><i class="bi bi-check-circle-fill"></i>Timed gift battles with live score bar</li>
+          <li><i class="bi bi-check-circle-fill"></i>Random &amp; friend matchmaking</li>
+          <li><i class="bi bi-check-circle-fill"></i>Rankings, streaks and season rewards</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="showcase flip" style="margin-top:76px">
+      <div class="sc-text reveal">
+        <h3>Reels that actually get seen</h3>
+        <p>A personalized vertical feed built for creators — music editor, filters, hashtags and boost tools baked in. Your content deserves an audience.</p>
+        <ul class="sc-list" style="padding:0">
+          <li><i class="bi bi-check-circle-fill"></i>Built-in editor: trim, mix music, filters</li>
+          <li><i class="bi bi-check-circle-fill"></i>Hashtags &amp; trending discovery</li>
+          <li><i class="bi bi-check-circle-fill"></i>Boost any post with Diamonds</li>
+        </ul>
+      </div>
+      <div class="sc-visual reveal d1">
+        <div class="mini-phone">
+          <div class="mp-notch"></div>
+          <div class="reel-bg"></div>
+          <div class="reel-side">
+            <div class="ra"><i class="bi bi-heart-fill" style="color:#ff3d71"></i><small>12.4k</small></div>
+            <div class="ra"><i class="bi bi-chat-fill"></i><small>864</small></div>
+            <div class="ra"><i class="bi bi-share-fill"></i><small>1.2k</small></div>
+            <div class="ra"><i class="bi bi-gift-fill" style="color:#ffb020"></i><small>Gift</small></div>
+          </div>
+          <div class="reel-cap"><b>@ananya_s</b><br>Dance challenge 🔥 <span class="tag">#iyolme #trending</span></div>
+          <div class="reel-progress"><i></i></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="showcase" style="margin-top:76px">
+      <div class="sc-visual reveal">
+        <div class="mini-phone">
+          <div class="mp-notch"></div>
+          <div class="room-bg"></div>
+          <div class="room-title">🎧 Late Night Talks<small>1.8k listening</small></div>
+          <div class="seats">
+            <div class="seat talking"><div class="sav" style="background:linear-gradient(135deg,#8b5cf6,#ff2ed1)">PS</div><span>Priya</span></div>
+            <div class="seat"><div class="sav" style="background:linear-gradient(135deg,#2ec5ff,#0b3d6e)">RV</div><span>Rahul</span></div>
+            <div class="seat"><div class="sav" style="background:linear-gradient(135deg,#ff7a3d,#5a1030)">AS</div><span>Ananya</span></div>
+            <div class="seat"><div class="sav" style="background:linear-gradient(135deg,#2ee6a8,#123b2e)">AP</div><span>Arjun</span></div>
+            <div class="seat"><div class="sav" style="background:linear-gradient(135deg,#ff3d9a,#3b0a5a)">SR</div><span>Sneha</span></div>
+            <div class="seat talking"><div class="sav" style="background:linear-gradient(135deg,#7a5cff,#101b4d)">VM</div><span>Vikram</span></div>
+            <div class="seat"><div class="sav" style="background:linear-gradient(135deg,#ffc24b,#402a00)">DK</div><span>Diya</span></div>
+            <div class="seat"><div class="sav" style="background:rgba(255,255,255,.1);border-style:dashed"><i class="bi bi-plus-lg" style="color:#8fa0d8"></i></div><span>Sit</span></div>
+          </div>
+          <div class="room-bar"><div class="rb">🎁 Gift</div><div class="rb">💬 Chat</div><div class="rb">🎤 Request Mic</div></div>
+        </div>
+      </div>
+      <div class="sc-text reveal d1">
+        <h3>Audio rooms for real conversations</h3>
+        <p>Drop into voice rooms, take a seat, request the mic. Moderators keep it clean, games keep it fun, gifts keep hosts earning.</p>
+        <ul class="sc-list" style="padding:0">
+          <li><i class="bi bi-check-circle-fill"></i>Multi-seat rooms with moderators</li>
+          <li><i class="bi bi-check-circle-fill"></i>Party games &amp; on-mic guests</li>
+          <li><i class="bi bi-check-circle-fill"></i>Spatial audio for an immersive feel</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="earn">
+    <div class="earn-band reveal">
+      <div class="section-tag">Monetization</div>
+      <h2>Create content. Get paid.</h2>
+      <p>Earn <b>Beans</b> from gifts, subscriptions, ad boosts and reel views. Track everything in your professional dashboard, then withdraw via bank, UPI or PayPal.</p>
+      <div class="earn-steps">
+        <div class="estep"><div class="en">1</div><b>Go live &amp; post</b><span>Stream, upload reels, grow your fanbase</span></div>
+        <div class="estep"><div class="en">2</div><b>Receive gifts</b><span>Fans send Diamonds &amp; 3D gifts live</span></div>
+        <div class="estep"><div class="en">3</div><b>Withdraw Beans</b><span>Cash out to bank, UPI or PayPal</span></div>
+      </div>
+      <a class="btn-grad lg" href="https://play.google.com/store/apps/details?id=com.vidmite.app"><i class="bi bi-google-play"></i>Start Earning — Get the App</a>
+    </div>
+  </section>
+
+  <section class="section" id="vip">
+    <div class="section-tag reveal">VIP &amp; SVIP</div>
+    <h2 class="reveal">Privileges that turn heads</h2>
+    <div class="sub reveal">Ten VIP tiers loaded with flex-worthy perks.</div>
+    <div class="vip-strip">
+      <div class="vip reveal"><i class="bi bi-stars"></i><b>Golden Name</b><span>Shimmering name in every room</span></div>
+      <div class="vip reveal d1"><i class="bi bi-door-open"></i><b>Special Entrance</b><span>Cinematic SVGA entry animation</span></div>
+      <div class="vip reveal d2"><i class="bi bi-shield"></i><b>Anti-Kick &amp; Anti-Mute</b><span>Can't be kicked or muted by hosts</span></div>
+      <div class="vip reveal d3"><i class="bi bi-chat-heart"></i><b>Colored Chat</b><span>Custom bubbles &amp; name colors</span></div>
+      <div class="vip reveal"><i class="bi bi-image"></i><b>Pic Messages</b><span>Send photos in DMs &amp; rooms</span></div>
+      <div class="vip reveal d1"><i class="bi bi-emoji-wink"></i><b>Premium Emoji</b><span>Exclusive sticker &amp; emoji packs</span></div>
+      <div class="vip reveal d2"><i class="bi bi-eye-slash"></i><b>Stealth Mode</b><span>Hide visitors &amp; online status</span></div>
+      <div class="vip reveal d3"><i class="bi bi-gem"></i><b>SVIP Gifts</b><span>Send gifts nobody else can</span></div>
+    </div>
+  </section>
+
+  <section class="section" id="faq">
+    <div class="section-tag reveal">FAQ</div>
+    <h2 class="reveal">Questions? Answers.</h2>
+    <div class="sub reveal">The stuff everyone asks before hitting download.</div>
+    <div class="faq">
+      <details class="reveal"><summary>Is Iyolme free to use?</summary><div class="ans">Yes — downloading, watching lives, posting reels and chatting are completely free. Optional in-app purchases (Diamonds, VIP) unlock gifts, boosts and premium privileges.</div></details>
+      <details class="reveal d1"><summary>How do creators earn money?</summary><div class="ans">Creators earn Beans from gifts received on lives, PK battles, audio rooms and boosted content. Beans convert to real money and can be withdrawn via bank transfer, UPI or PayPal once you hit the minimum threshold.</div></details>
+      <details class="reveal d2"><summary>What are PK Battles?</summary><div class="ans">PK Battles pit two live hosts against each other for a fixed time. Fans send gifts to push their host's score — the higher score wins. It's the fastest way to grow and earn on Iyolme.</div></details>
+      <details class="reveal d3"><summary>Is the app safe?</summary><div class="ans">Yes. Iyolme has report &amp; block tools, moderator controls in rooms, AI-assisted host compliance, username restrictions and verified badges. You control who can view, follow or message you.</div></details>
+      <details class="reveal"><summary>How do I get the blue verified badge?</summary><div class="ans">Apply for verification inside the app. Once approved by our team, the blue tick appears on your profile, lives and comments.</div></details>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="dl-band reveal">
+      <img class="app-ic" src="/brand/logo-icon.png" alt="Iyolme app icon">
+      <h2>Your stage is waiting.</h2>
+      <p>Download Iyolme and go live in under a minute.</p>
+      <a class="btn-grad lg" href="https://play.google.com/store/apps/details?id=com.vidmite.app"><i class="bi bi-google-play"></i>Get it on Google Play</a>
+      <div class="dl-note"><i class="bi bi-google-play"></i> Official app on Google Play &middot; 10K+ downloads &middot; or <a href="/iyolme.apk" style="color:var(--cyan)">download APK directly</a></div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="foot-grid">
+      <div>
+        <div class="foot-brand"><img src="/brand/logo-mark.png" alt="Iyolme"><b>Iyolme</b></div>
+        <p>The next-gen live streaming &amp; short-video app. Go live, create, connect and earn — all in one place.</p>
+      </div>
+      <div class="foot-col">
+        <b>Product</b>
+        <a href="#features">Features</a>
+        <a href="#showcase">Inside the App</a>
+        <a href="#vip">VIP</a>
+        <a href="https://play.google.com/store/apps/details?id=com.vidmite.app">Google Play</a>
+        <a href="/iyolme.apk">Download APK</a>
+      </div>
+      <div class="foot-col">
+        <b>Creators</b>
+        <a href="#earn">Monetization</a>
+        <a href="#earn">Withdraw Earnings</a>
+        <a href="#faq">Verification</a>
+      </div>
+      <div class="foot-col">
+        <b>Legal &amp; Support</b>
+        <a href="/privacy.html">Privacy Policy</a>
+        <a href="/terms.html">Terms of Service</a>
+        <a href="/delete-account.html">Delete Account</a>
+        <a href="mailto:support@iyolme.com">support@iyolme.com</a>
+      </div>
+    </div>
+    <div class="foot-bottom">© 2026 Iyolme. All rights reserved.</div>
+  </footer>
+
+  <div class="toast-live" id="liveToast">
+    <div class="tav" id="toastAv">AS</div>
+    <div><b id="toastName">Ananya Singh</b><span>just went live 🎥</span></div>
+  </div>
+
+  <script>
+    // ---------- Scroll reveal ----------
+    const io = new IntersectionObserver(es => es.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+    }), { threshold: .12 });
+    document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+    // ---------- Animated counters ----------
+    const cio = new IntersectionObserver(es => es.forEach(e => {
+      if (!e.isIntersecting) return;
+      const el = e.target, target = +el.dataset.count, suf = el.dataset.suffix || '+';
+      const t0 = performance.now();
+      (function tick(t) {
+        const p = Math.min((t - t0) / 1400, 1), ease = 1 - Math.pow(1 - p, 3);
+        el.textContent = Math.round(target * ease) + (p === 1 ? suf : '');
+        if (p < 1) requestAnimationFrame(tick);
+      })(t0);
+      cio.unobserve(el);
+    }), { threshold: .6 });
+    document.querySelectorAll('.num[data-count]').forEach(el => cio.observe(el));
+
+    // ---------- Phone live simulation ----------
+    const NAMES = ['Rahul','Sneha','Arjun','Diya','Kabir','Meera','Vikram','Ishita','Rohan','Ananya'];
+    const COLORS = ['#8b5cf6','#00c2ff','#ff7a3d','#2ee6a8','#ff3d9a','#ffc24b','#40e0d0','#ff5c8a'];
+    const MSGS = ['🔥🔥🔥','Love this!','Hi from Delhi 🇮🇳','Amazing stream','😍😍','Sing that song again!','PK when? ⚔️','❤️❤️','Best host ever','Joined from reels!'];
+    const GIFTS = [['💎','×99'],['🌹','×520'],['🎁','×1'],['🏆','×1'],['💜','×66'],['🚗','×1']];
+    const cbox = document.getElementById('comments');
+    const phone = document.getElementById('phone');
+    const rnd = a => a[Math.floor(Math.random() * a.length)];
+
+    function addComment() {
+      const name = rnd(NAMES);
+      const el = document.createElement('div');
+      el.className = 'cmt';
+      el.innerHTML = '<div class="av" style="background:' + rnd(COLORS) + '">' + name.slice(0,1) + '</div><div><b>@' + name.toLowerCase() + '</b>' + rnd(MSGS) + '</div>';
+      cbox.appendChild(el);
+      while (cbox.children.length > 4) cbox.children[0].remove();
+    }
+    setInterval(addComment, 2200); addComment(); addComment();
+
+    function flyGift() {
+      const g = rnd(GIFTS);
+      const el = document.createElement('div');
+      el.className = 'gift';
+      el.innerHTML = g[0] + '<small>' + g[1] + '</small>';
+      phone.appendChild(el); setTimeout(() => el.remove(), 3400);
+    }
+    setInterval(flyGift, 3600); setTimeout(flyGift, 1200);
+
+    function flyHeart() {
+      const el = document.createElement('div');
+      el.className = 'heart'; el.textContent = '❤';
+      el.style.right = (18 + Math.random() * 24) + 'px';
+      phone.appendChild(el); setTimeout(() => el.remove(), 2600);
+    }
+    setInterval(flyHeart, 900);
+
+    // viewer count jitter
+    const vc = document.getElementById('viewerCount'); let v = 1248;
+    setInterval(() => { v = Math.max(900, v + Math.floor(Math.random() * 41) - 14); vc.textContent = v.toLocaleString('en-IN'); }, 2600);
+
+    // ---------- "went live" toast ----------
+    const toast = document.getElementById('liveToast');
+    const toastAv = document.getElementById('toastAv');
+    const toastName = document.getElementById('toastName');
+    const toastData = [['Ananya Singh','#ff7a3d'],['Kabir Ahmed','#3d9bff'],['Meera Nair','#c86bfa'],['Vikram Mehta','#7a5cff'],['Sneha Reddy','#ff3d9a']];
+    let ti = 0;
+    function showToast() {
+      const d = toastData[ti++ % toastData.length];
+      toastName.textContent = d[0];
+      toastAv.textContent = d[0].split(' ').map(w => w[0]).join('');
+      toastAv.style.background = 'linear-gradient(135deg,' + d[1] + ',#1a1150)';
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 4200);
+    }
+    setTimeout(showToast, 6000);
+    setInterval(showToast, 14000);
+  </script>
+</body>
+</html>
