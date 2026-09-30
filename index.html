@@ -486,6 +486,59 @@
     .toast-live b { font-size: .8rem; }
     .toast-live span { color: var(--muted); font-size: .72rem; display: block; }
 
+    /* ---------- Trending (live data) ---------- */
+    .trend-wrap { display: none; }
+    .trend-wrap.loaded { display: block; }
+    .trend-label { display: flex; align-items: center; gap: 10px; margin-bottom: 18px; font-family: 'Sora'; font-weight: 700; font-size: 1.02rem; }
+    .trend-label .live-dot { width: 9px; height: 9px; border-radius: 50%; background: var(--red); animation: pulse 1.6s infinite; }
+    .trend-label .count { font-size: .74rem; color: var(--muted); font-weight: 500; font-family: 'Inter'; }
+    .scroll-row { display: flex; gap: 14px; overflow-x: auto; padding: 6px 4px 18px; scroll-snap-type: x mandatory; scrollbar-width: none; }
+    .scroll-row::-webkit-scrollbar { display: none; }
+    .live-card {
+      flex: 0 0 168px; height: 250px; border-radius: 18px; overflow: hidden; position: relative;
+      scroll-snap-align: start; border: 1px solid var(--border); background: var(--bg-1);
+      transition: transform .25s var(--ease), border-color .25s;
+    }
+    .live-card:hover { transform: translateY(-5px); border-color: var(--border-hi); }
+    .live-card video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+    .live-card .lc-shade { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(5,8,26,.25) 0%, transparent 35%, transparent 55%, rgba(5,8,26,.92) 100%); }
+    .lc-live { position: absolute; top: 10px; left: 10px; z-index: 2; background: linear-gradient(90deg,#ff3d71,#ff7a3d); color:#fff; font-size:.58rem; font-weight:800; letter-spacing:1.2px; padding:4px 9px; border-radius:7px; display:flex; align-items:center; gap:5px; }
+    .lc-live::before { content:""; width:5px; height:5px; border-radius:50%; background:#fff; animation:pulse 1.6s infinite; }
+    .lc-viewers { position: absolute; top: 10px; right: 10px; z-index: 2; background: rgba(8,10,28,.65); backdrop-filter: blur(6px); color:#fff; font-size:.58rem; font-weight:700; padding:4px 9px; border-radius:7px; }
+    .lc-info { position: absolute; left: 10px; right: 10px; bottom: 10px; z-index: 2; display:flex; align-items:center; gap:8px; }
+    .lc-info img { width: 30px; height: 30px; border-radius: 50%; object-fit: cover; border: 1.5px solid rgba(255,255,255,.4); }
+    .lc-info .nm { font-size: .7rem; font-weight: 700; line-height: 1.25; }
+    .lc-info .nm small { display:block; font-weight:500; color:#b9c4ec; font-size:.58rem; }
+    .lc-title { position: absolute; left: 10px; right: 10px; bottom: 52px; z-index: 2; font-size: .72rem; font-weight: 700; text-shadow: 0 2px 10px rgba(0,0,0,.6); }
+    .reel-card {
+      flex: 0 0 150px; height: 230px; border-radius: 18px; overflow: hidden; position: relative;
+      scroll-snap-align: start; border: 1px solid var(--border); background: var(--bg-1);
+      transition: transform .25s var(--ease), border-color .25s; display: block;
+    }
+    .reel-card:hover { transform: translateY(-5px); border-color: var(--border-hi); }
+    .reel-card img.rthumb { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; }
+    .reel-card .rc-shade { position:absolute; inset:0; background:linear-gradient(180deg,transparent 30%,rgba(5,8,26,.94) 100%); }
+    .rc-play { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:44px; height:44px; border-radius:50%;
+      background:rgba(8,10,28,.55); backdrop-filter:blur(6px); border:1px solid rgba(255,255,255,.25);
+      display:grid; place-items:center; color:#fff; font-size:1.05rem; transition:transform .2s, background .2s; }
+    .reel-card:hover .rc-play { transform:translate(-50%,-50%) scale(1.12); background:var(--grad-soft); border-color:transparent; }
+    .rc-stats { position:absolute; left:10px; right:10px; bottom:38px; z-index:2; display:flex; gap:12px; font-size:.64rem; font-weight:700; color:#dfe6ff; }
+    .rc-info { position:absolute; left:10px; right:10px; bottom:10px; z-index:2; display:flex; align-items:center; gap:7px; }
+    .rc-info img { width:24px; height:24px; border-radius:50%; object-fit:cover; border:1.5px solid rgba(255,255,255,.4); }
+    .rc-info .nm { font-size:.64rem; font-weight:700; }
+    .skeleton { flex:0 0 168px; height:250px; border-radius:18px; background:linear-gradient(100deg,#111838 30%,#1a2350 50%,#111838 70%); background-size:200% 100%; animation:shimmer 1.4s infinite; }
+    @keyframes shimmer { to { background-position:-200% 0; } }
+
+    /* ---------- Watch & Earn ---------- */
+    .we-grid { display:grid; grid-template-columns: repeat(4,1fr); gap:14px; margin-top:8px; }
+    .we-step { background:var(--panel); border:1px solid var(--border); border-radius:18px; padding:24px 18px; position:relative; overflow:hidden; }
+    .we-step::after { content:""; position:absolute; top:-46px; right:-46px; width:130px; height:130px; border-radius:50%;
+      background:radial-gradient(circle, rgba(255,176,32,.14), transparent 65%); }
+    .we-step .wi { font-size:1.6rem; margin-bottom:13px; display:block; }
+    .we-step b { display:block; font-size:.94rem; margin-bottom:6px; }
+    .we-step span { font-size:.82rem; color:var(--muted); line-height:1.6; }
+    .we-step .wn { position:absolute; top:14px; right:16px; font-family:'Sora'; font-weight:800; font-size:.74rem; color:rgba(139,92,246,.55); }
+
     @media (max-width: 920px) {
       .hero { grid-template-columns: 1fr; text-align: center; padding-top: 54px; }
       .hero p.lead { margin-inline: auto; }
@@ -500,12 +553,139 @@
       .stat:nth-child(n+3) { border-top: none; }
       .earn-steps { grid-template-columns: 1fr; }
       .foot-grid { grid-template-columns: 1fr 1fr; }
+      .we-grid { grid-template-columns: repeat(2,1fr); }
     }
     @media (max-width: 640px) {
       .nav-links { display: none; }
       .phone { width: 262px; height: 540px; }
       .foot-grid { grid-template-columns: 1fr; gap: 28px; }
       .chip { font-size: .68rem; padding: 9px 12px; }
+      .live-card { flex-basis: 148px; height: 224px; }
+      .reel-card { flex-basis: 134px; height: 208px; }
+    }
+
+    /* ============ Web Auth + Reels Feed ============ */
+    .nav-actions { display:flex; align-items:center; gap:10px; }
+    .btn-signin {
+      display:inline-flex; align-items:center; gap:8px; padding:11px 20px; border-radius:12px;
+      font-weight:700; font-size:.85rem; color:#fff; cursor:pointer; border:1px solid var(--border-hi);
+      background:rgba(139,92,246,.14); transition:.25s;
+    }
+    .btn-signin:hover { background:rgba(139,92,246,.28); transform:translateY(-2px); }
+    .user-chip {
+      display:none; align-items:center; gap:9px; padding:7px 8px 7px 7px; border-radius:99px;
+      border:1px solid var(--border-hi); background:rgba(10,16,48,.7); cursor:pointer; position:relative;
+    }
+    .user-chip img, .user-chip .uav {
+      width:32px; height:32px; border-radius:50%; object-fit:cover;
+      background:var(--grad); display:flex; align-items:center; justify-content:center;
+      font-weight:800; font-size:.8rem; color:#05081a;
+    }
+    .user-chip .un { font-size:.82rem; font-weight:700; max-width:110px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+    .user-menu {
+      position:absolute; top:calc(100% + 8px); right:0; min-width:170px; display:none;
+      background:#0c1334; border:1px solid var(--border-hi); border-radius:14px; padding:6px; z-index:99;
+      box-shadow:0 18px 44px rgba(0,0,0,.5);
+    }
+    .user-menu.open { display:block; }
+    .user-menu a, .user-menu button {
+      display:flex; align-items:center; gap:9px; width:100%; padding:10px 12px; border-radius:9px;
+      color:#dfe6ff; font-size:.83rem; font-weight:600; background:none; border:0; cursor:pointer; text-align:left;
+    }
+    .user-menu a:hover, .user-menu button:hover { background:rgba(139,92,246,.16); }
+    .user-menu i { color:var(--cyan); }
+
+    .auth-overlay {
+      position:fixed; inset:0; z-index:200; display:none; align-items:center; justify-content:center;
+      background:rgba(3,6,22,.78); backdrop-filter:blur(8px); padding:16px;
+    }
+    .auth-overlay.open { display:flex; }
+    .auth-card {
+      width:min(420px,100%); background:linear-gradient(170deg,#0d1538,#080e28);
+      border:1px solid var(--border-hi); border-radius:22px; padding:30px 28px; position:relative;
+      box-shadow:0 30px 80px rgba(0,0,0,.6), 0 0 60px rgba(139,92,246,.14);
+      animation:pop .3s ease;
+    }
+    @keyframes pop { from { transform:scale(.94) translateY(10px); opacity:0; } }
+    .auth-card::before { content:''; position:absolute; top:0; left:24px; right:24px; height:3px; border-radius:99px; background:var(--grad); }
+    .auth-logo { width:52px; height:52px; margin-bottom:12px; filter:drop-shadow(0 0 14px rgba(0,229,255,.4)); }
+    .auth-card h3 { font-size:1.35rem; font-weight:800; margin-bottom:4px; }
+    .auth-card .asub { font-size:.84rem; color:var(--muted); margin-bottom:20px; }
+    .auth-tabs { display:flex; gap:6px; background:rgba(255,255,255,.05); border-radius:12px; padding:5px; margin-bottom:20px; }
+    .auth-tabs button {
+      flex:1; padding:10px; border:0; border-radius:9px; background:none; color:var(--muted);
+      font-weight:700; font-size:.85rem; cursor:pointer; transition:.2s;
+    }
+    .auth-tabs button.active { background:var(--grad); color:#05081a; }
+    .auth-field { margin-bottom:13px; }
+    .auth-field label { display:block; font-size:.74rem; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:var(--muted); margin-bottom:6px; }
+    .auth-field input {
+      width:100%; padding:13px 15px; border-radius:12px; border:1px solid var(--border);
+      background:rgba(255,255,255,.05); color:#fff; font-size:.92rem; outline:none; transition:.2s;
+      font-family:inherit;
+    }
+    .auth-field input:focus { border-color:var(--cyan); box-shadow:0 0 0 3px rgba(0,229,255,.12); }
+    .auth-err {
+      display:none; padding:11px 14px; border-radius:11px; font-size:.82rem; font-weight:600;
+      background:rgba(255,61,113,.12); border:1px solid rgba(255,61,113,.35); color:#ff9db8; margin-bottom:14px;
+    }
+    .auth-ok {
+      display:none; padding:11px 14px; border-radius:11px; font-size:.82rem; font-weight:600;
+      background:rgba(0,229,170,.1); border:1px solid rgba(0,229,170,.3); color:#5df0c0; margin-bottom:14px;
+    }
+    .auth-submit {
+      width:100%; padding:14px; border:0; border-radius:13px; font-weight:800; font-size:.95rem;
+      background:var(--grad); background-size:200% 100%; color:#05081a; cursor:pointer; transition:.25s;
+    }
+    .auth-submit:hover { background-position:90% 50%; transform:translateY(-1px); }
+    .auth-submit:disabled { opacity:.55; cursor:wait; transform:none; }
+    .auth-close {
+      position:absolute; top:14px; right:14px; width:34px; height:34px; border-radius:10px;
+      border:1px solid var(--border); background:rgba(255,255,255,.05); color:var(--muted);
+      cursor:pointer; font-size:1rem; display:flex; align-items:center; justify-content:center;
+    }
+    .auth-close:hover { color:#fff; border-color:var(--border-hi); }
+    .auth-note { margin-top:14px; font-size:.76rem; color:var(--muted); text-align:center; }
+    .auth-note a { color:var(--cyan); font-weight:700; }
+
+    .reel-card { position:relative; }
+    .rc-like {
+      position:absolute; top:9px; right:9px; z-index:3; width:34px; height:34px; border-radius:50%;
+      display:flex; align-items:center; justify-content:center; border:1px solid rgba(255,255,255,.22);
+      background:rgba(5,8,26,.6); color:#fff; cursor:pointer; font-size:.95rem; transition:.2s;
+    }
+    .rc-like:hover { transform:scale(1.12); border-color:#ff3d71; }
+    .rc-like.liked { color:#ff3d71; border-color:#ff3d71; background:rgba(255,61,113,.2); animation:pop .3s ease; }
+    .rc-follow {
+      margin-left:auto; padding:4px 10px; border-radius:99px; font-size:.66rem; font-weight:800;
+      border:1px solid var(--border-hi); background:rgba(139,92,246,.2); color:#fff; cursor:pointer; transition:.2s;
+    }
+    .rc-follow:hover { background:rgba(139,92,246,.4); }
+    .rc-follow.done { border-color:rgba(0,229,170,.4); color:#5df0c0; background:rgba(0,229,170,.08); }
+    .rc-info { display:flex; align-items:center; gap:7px; }
+    .load-more-wrap { text-align:center; margin-top:8px; }
+    .btn-load {
+      display:inline-flex; align-items:center; gap:9px; padding:13px 30px; border-radius:13px;
+      border:1px solid var(--border-hi); background:rgba(139,92,246,.12); color:#fff;
+      font-weight:700; font-size:.88rem; cursor:pointer; transition:.25s;
+    }
+    .btn-load:hover { background:rgba(139,92,246,.26); transform:translateY(-2px); }
+    .btn-load:disabled { opacity:.5; cursor:wait; transform:none; }
+    .feed-note { font-size:.76rem; color:var(--muted); margin-top:10px; }
+
+    .mini-toast {
+      position:fixed; bottom:26px; left:50%; transform:translateX(-50%) translateY(80px); z-index:300;
+      background:#0c1334; border:1px solid var(--border-hi); border-radius:13px; padding:12px 22px;
+      font-size:.85rem; font-weight:700; color:#fff; box-shadow:0 16px 40px rgba(0,0,0,.55);
+      opacity:0; transition:.35s; pointer-events:none;
+    }
+    .mini-toast.show { opacity:1; transform:translateX(-50%) translateY(0); }
+    .mini-toast i { color:var(--cyan); margin-right:7px; }
+
+    @media (max-width: 720px) {
+      .nav-actions .btn-grad { display:none; }
+      .btn-signin { padding:9px 14px; font-size:.8rem; }
+      .user-chip .un { display:none; }
     }
   </style>
 </head>
@@ -517,9 +697,10 @@
         <div class="brand-name">Iyolme</div>
       </div>
       <div class="nav-links">
+        <a href="#trending">Trending</a>
         <a href="#features">Features</a>
         <a href="#showcase">Inside the App</a>
-        <a href="#earn">Earn</a>
+        <a href="#watch-earn">Watch &amp; Earn</a>
         <a href="#vip">VIP</a>
         <a href="#faq">FAQ</a>
       </div>
@@ -583,6 +764,30 @@
       <span>LIVE HD <i class="bi bi-star-fill"></i> REELS <i class="bi bi-star-fill"></i> STORIES <i class="bi bi-star-fill"></i> AUDIO ROOMS <i class="bi bi-star-fill"></i> PK BATTLES <i class="bi bi-star-fill"></i> 3D GIFTS <i class="bi bi-star-fill"></i> VIP &amp; SVIP <i class="bi bi-star-fill"></i> FAMILY &amp; CP <i class="bi bi-star-fill"></i> CREATOR DASHBOARD <i class="bi bi-star-fill"></i> AI FEATURES <i class="bi bi-star-fill"></i> VERIFIED BADGES <i class="bi bi-star-fill"></i></span>
     </div>
   </div>
+
+  <!-- ================= TRENDING (live from API) ================= -->
+  <section class="section trend-wrap" id="trending">
+    <div class="section-tag">Trending Now</div>
+    <h2>Live right now on Iyolme</h2>
+    <div class="sub">Real creators, real streams — this is happening in the app as you read this.</div>
+
+    <div class="trend-label"><span class="live-dot"></span> LIVE NOW <span class="count" id="liveCount"></span></div>
+    <div class="scroll-row" id="liveRow">
+      <div class="skeleton"></div><div class="skeleton"></div><div class="skeleton"></div>
+      <div class="skeleton"></div><div class="skeleton"></div><div class="skeleton"></div>
+    </div>
+
+    <div class="trend-label" style="margin-top:34px"><i class="bi bi-fire" style="color:var(--orange)"></i> TRENDING REELS <span class="count" id="reelCount"></span></div>
+    <div class="scroll-row" id="reelRow">
+      <div class="skeleton" style="flex-basis:150px;height:230px"></div><div class="skeleton" style="flex-basis:150px;height:230px"></div>
+      <div class="skeleton" style="flex-basis:150px;height:230px"></div><div class="skeleton" style="flex-basis:150px;height:230px"></div>
+      <div class="skeleton" style="flex-basis:150px;height:230px"></div><div class="skeleton" style="flex-basis:150px;height:230px"></div>
+    </div>
+    <div class="load-more-wrap" id="loadMoreWrap" style="display:none">
+      <button class="btn-load" id="loadMoreBtn"><i class="bi bi-plus-circle"></i>Load more reels</button>
+      <div class="feed-note">Sign in to like reels and follow creators — your account works in the app too.</div>
+    </div>
+  </section>
 
   <section class="section" id="features">
     <div class="section-tag reveal">Features</div>
@@ -689,6 +894,34 @@
     </div>
   </section>
 
+  <!-- ================= WATCH & EARN ================= -->
+  <section class="section" id="watch-earn">
+    <div class="section-tag reveal">Watch &amp; Earn</div>
+    <h2 class="reveal">Watching reels actually pays.</h2>
+    <div class="sub reveal">Not a promise — a system. Watch, scratch, collect, redeem.</div>
+    <div class="we-grid">
+      <div class="we-step reveal"><span class="wn">01</span><span class="wi">📺</span><b>Watch Reels</b><span>Scroll the feed like always — every reel you watch counts toward rewards.</span></div>
+      <div class="we-step reveal d1"><span class="wn">02</span><span class="wi">🎫</span><b>Scratch &amp; Win</b><span>Earn mystery scratch cards while watching — win tokens and rare collectibles.</span></div>
+      <div class="we-step reveal d2"><span class="wn">03</span><span class="wi">🐼</span><b>Collect &amp; Fuse</b><span>Collect rare animals like the Legendary Panda. Fuse lower-tier assets into legendaries.</span></div>
+      <div class="we-step reveal d3"><span class="wn">04</span><span class="wi">💰</span><b>Redeem Tokens</b><span>Everything lands in your iYol Wallet — convert to real value and cash out.</span></div>
+    </div>
+  </section>
+
+  <!-- ================= AI & MUSIC ================= -->
+  <section class="section" id="ai-music">
+    <div class="section-tag reveal">AI + Music</div>
+    <h2 class="reveal">Smarter than your average app</h2>
+    <div class="sub reveal">A real AI engine and a licensed music ecosystem — built into the backend.</div>
+    <div class="grid">
+      <div class="card reveal"><i class="bi bi-music-note-beamed"></i><h5>HiTune Music Library</h5><p>Official licensed sounds inside reels — tap "Listen Full Song" to jump straight to HiTune Music.</p></div>
+      <div class="card reveal d1"><i class="bi bi-badge-cc"></i><h5>AI Music Attribution</h5><p>AI-generated tracks carry transparent attribution badges and creator credits on every reel.</p></div>
+      <div class="card reveal d2"><i class="bi bi-mic-fill"></i><h5>AI Voice Changer</h5><p>Go live with a completely different voice — real-time AI voice tuning in streams and rooms.</p></div>
+      <div class="card reveal d3"><i class="bi bi-headphones"></i><h5>3D Spatial Audio</h5><p>Rooms and lives feel like you're actually there — immersive spatial sound.</p></div>
+      <div class="card reveal"><i class="bi bi-shield-check"></i><h5>AI Compliance Guard</h5><p>On-device host presence detection keeps streams clean — warnings to enforcement, automatically.</p></div>
+      <div class="card reveal d1"><i class="bi bi-diagram-3"></i><h5>Smart PK Matchmaking</h5><p>AI pairs hosts for balanced, exciting battles — and suggests gifts fans will love.</p></div>
+    </div>
+  </section>
+
   <section class="section" id="earn">
     <div class="earn-band reveal">
       <div class="section-tag">Monetization</div>
@@ -778,7 +1011,59 @@
     <div><b id="toastName">Ananya Singh</b><span>just went live 🎥</span></div>
   </div>
 
-  <script>
+    <div class="mini-toast" id="miniToast"></div>
+
+  <!-- ================= AUTH MODAL ================= -->
+  <div class="auth-overlay" id="authOverlay">
+    <div class="auth-card" role="dialog" aria-modal="true">
+      <button class="auth-close" id="authClose" aria-label="Close"><i class="bi bi-x-lg"></i></button>
+      <img class="auth-logo" src="/brand/logo-icon.png" alt="Iyolme">
+      <h3>Welcome to Iyolme</h3>
+      <div class="asub">One account for web &amp; app — likes, follows and wallet stay in sync.</div>
+      <div class="auth-tabs">
+        <button id="tabLogin" class="active" type="button">Sign In</button>
+        <button id="tabSignup" type="button">Create Account</button>
+      </div>
+      <div class="auth-err" id="authErr"></div>
+      <div class="auth-ok" id="authOk"></div>
+
+      <form id="formLogin" autocomplete="on">
+        <div class="auth-field">
+          <label>Email / Username / Mobile</label>
+          <input name="identifier" type="text" required placeholder="you@example.com or @username">
+        </div>
+        <div class="auth-field">
+          <label>Password</label>
+          <input name="password" type="password" required placeholder="Your password">
+        </div>
+        <button class="auth-submit" type="submit">Sign In</button>
+        <div class="auth-note">New to Iyolme? <a href="#" id="goSignup">Create your ID</a></div>
+      </form>
+
+      <form id="formSignup" style="display:none" autocomplete="on">
+        <div class="auth-field">
+          <label>Full Name</label>
+          <input name="fullname" type="text" required minlength="2" maxlength="60" placeholder="Your name">
+        </div>
+        <div class="auth-field">
+          <label>Email</label>
+          <input name="email" type="email" required maxlength="100" placeholder="you@example.com">
+        </div>
+        <div class="auth-field">
+          <label>Password</label>
+          <input name="password" type="password" required minlength="6" maxlength="72" placeholder="Min 6 characters">
+        </div>
+        <div class="auth-field">
+          <label>Confirm Password</label>
+          <input name="password2" type="password" required minlength="6" maxlength="72" placeholder="Repeat password">
+        </div>
+        <button class="auth-submit" type="submit">Create My Iyolme ID</button>
+        <div class="auth-note">Already have an ID? <a href="#" id="goLogin">Sign in</a></div>
+      </form>
+    </div>
+  </div>
+
+<script>
     // ---------- Scroll reveal ----------
     const io = new IntersectionObserver(es => es.forEach(e => {
       if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
@@ -855,6 +1140,237 @@
     }
     setTimeout(showToast, 6000);
     setInterval(showToast, 14000);
+
+    // ---------- Web Auth (same account as the app) ----------
+    const API_KEY = 'retry123';
+    const LS_TOKEN = 'iyolme_token', LS_USER = 'iyolme_user';
+    const Auth = {
+      get token() { return localStorage.getItem(LS_TOKEN); },
+      get user() { try { return JSON.parse(localStorage.getItem(LS_USER)); } catch (e) { return null; } },
+      save(token, user) {
+        localStorage.setItem(LS_TOKEN, token);
+        localStorage.setItem(LS_USER, JSON.stringify(user || {}));
+      },
+      clear() { localStorage.removeItem(LS_TOKEN); localStorage.removeItem(LS_USER); }
+    };
+    function api(path, body, useAuth) {
+      const headers = { 'x-api-key': API_KEY };
+      if (useAuth && Auth.token) headers['authtoken'] = Auth.token;
+      return fetch(path, { method: 'POST', headers, body: new URLSearchParams(body) })
+        .then(r => r.json().catch(() => ({ status: false, message: 'Server error, try again.' })));
+    }
+    function miniToast(msg, icon) {
+      const t = document.getElementById('miniToast');
+      t.innerHTML = '<i class="bi ' + (icon || 'bi-check-circle-fill') + '"></i>' + msg;
+      t.classList.add('show');
+      clearTimeout(t._t); t._t = setTimeout(() => t.classList.remove('show'), 2600);
+    }
+    function refreshAuthUI() {
+      const u = Auth.user, chip = document.getElementById('userChip'), btn = document.getElementById('signInBtn');
+      if (u && Auth.token) {
+        btn.style.display = 'none'; chip.style.display = 'flex';
+        document.getElementById('ucName').textContent = u.fullname || u.username || 'Me';
+        const img = document.getElementById('ucAvatar'), ini = document.getElementById('ucInitial');
+        if (u.profile_photo) { img.src = u.profile_photo; img.style.display = ''; ini.style.display = 'none'; }
+        else { img.style.display = 'none'; ini.style.display = 'flex'; ini.textContent = (u.fullname || u.username || 'I').charAt(0).toUpperCase(); }
+      } else {
+        btn.style.display = ''; chip.style.display = 'none';
+        document.getElementById('userMenu').classList.remove('open');
+      }
+    }
+    const authOverlay = document.getElementById('authOverlay');
+    function openAuth(tab) {
+      authOverlay.classList.add('open');
+      switchAuthTab(tab || 'login');
+    }
+    function switchAuthTab(tab) {
+      document.getElementById('tabLogin').classList.toggle('active', tab === 'login');
+      document.getElementById('tabSignup').classList.toggle('active', tab === 'signup');
+      document.getElementById('formLogin').style.display = tab === 'login' ? '' : 'none';
+      document.getElementById('formSignup').style.display = tab === 'signup' ? '' : 'none';
+      document.getElementById('authErr').style.display = 'none';
+      document.getElementById('authOk').style.display = 'none';
+    }
+    function authErr(m) { const e = document.getElementById('authErr'); e.textContent = m; e.style.display = 'block'; }
+
+    document.getElementById('signInBtn').addEventListener('click', () => openAuth('login'));
+    document.getElementById('authClose').addEventListener('click', () => authOverlay.classList.remove('open'));
+    authOverlay.addEventListener('click', e => { if (e.target === authOverlay) authOverlay.classList.remove('open'); });
+    document.getElementById('tabLogin').addEventListener('click', () => switchAuthTab('login'));
+    document.getElementById('tabSignup').addEventListener('click', () => switchAuthTab('signup'));
+    document.getElementById('goSignup').addEventListener('click', e => { e.preventDefault(); switchAuthTab('signup'); });
+    document.getElementById('goLogin').addEventListener('click', e => { e.preventDefault(); switchAuthTab('login'); });
+
+    document.getElementById('userChip').addEventListener('click', e => {
+      if (e.target.closest('.user-menu')) return;
+      document.getElementById('userMenu').classList.toggle('open');
+    });
+    document.addEventListener('click', e => {
+      if (!e.target.closest('#userChip')) document.getElementById('userMenu').classList.remove('open');
+    });
+    document.getElementById('logoutBtn').addEventListener('click', () => {
+      api('/api/user/logOutUser', {}, true).finally(() => {
+        Auth.clear(); refreshAuthUI(); miniToast('Logged out', 'bi-box-arrow-right');
+      });
+    });
+
+    document.getElementById('formLogin').addEventListener('submit', function (e) {
+      e.preventDefault();
+      const btn = this.querySelector('.auth-submit');
+      btn.disabled = true;
+      api('/api/user/loginWithPassword', {
+        identifier: this.identifier.value.trim(),
+        password: this.password.value,
+        device_token: 'web_' + Math.random().toString(36).slice(2),
+        device: 0,
+        login_method: 'email'
+      }).then(j => {
+        btn.disabled = false;
+        if (j.status && j.data && j.data.token) {
+          Auth.save(j.data.token, j.data);
+          authOverlay.classList.remove('open'); refreshAuthUI();
+          miniToast('Welcome back, ' + (j.data.fullname || j.data.username) + '!');
+          this.reset();
+        } else authErr(j.message || 'Login failed.');
+      }).catch(() => { btn.disabled = false; authErr('Network error, try again.'); });
+    });
+
+    document.getElementById('formSignup').addEventListener('submit', function (e) {
+      e.preventDefault();
+      const btn = this.querySelector('.auth-submit');
+      if (this.password.value !== this.password2.value) { authErr('Passwords do not match.'); return; }
+      btn.disabled = true;
+      api('/api/user/registerWebUser', {
+        fullname: this.fullname.value.trim(),
+        email: this.email.value.trim(),
+        password: this.password.value,
+        device_token: 'web_' + Math.random().toString(36).slice(2)
+      }).then(j => {
+        btn.disabled = false;
+        if (j.status && j.data && j.data.token) {
+          Auth.save(j.data.token, j.data);
+          authOverlay.classList.remove('open'); refreshAuthUI();
+          miniToast('Account created — welcome to Iyolme!');
+          this.reset();
+        } else authErr(j.message || 'Could not create account.');
+      }).catch(() => { btn.disabled = false; authErr('Network error, try again.'); });
+    });
+    refreshAuthUI();
+
+    // ---------- Trending (live API data) ----------
+    (function loadTrending() {
+      const wrap = document.getElementById('trending');
+      const liveRow = document.getElementById('liveRow');
+      const reelRow = document.getElementById('reelRow');
+      const esc = s => String(s || '').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+      const badge = v => v == 1 ? ' <i class="bi bi-patch-check-fill" style="color:#00c2ff;font-size:.62rem"></i>' : '';
+      const fmt = n => n >= 1000 ? (n / 1000).toFixed(1).replace('.0','') + 'k' : n;
+      fetch('/api/public/trending').then(r => r.json()).then(j => {
+        if (!j || !j.status || !j.data) return;
+        const lives = j.data.lives || [], reels = j.data.reels || [];
+        if (!lives.length && !reels.length) return;
+        wrap.classList.add('loaded');
+
+        document.getElementById('liveCount').textContent = lives.length ? lives.length + ' streams' : '';
+        liveRow.innerHTML = '';
+        lives.forEach(l => {
+          const viewers = 200 + Math.floor(Math.random() * 2400);
+          const card = document.createElement('div');
+          card.className = 'live-card';
+          card.innerHTML =
+            '<video muted loop playsinline preload="metadata" src="' + esc(l.link) + '"></video>' +
+            '<div class="lc-shade"></div>' +
+            '<div class="lc-live">LIVE</div>' +
+            '<div class="lc-viewers"><i class="bi bi-eye-fill"></i> ' + fmt(viewers) + '</div>' +
+            '<div class="lc-title">' + esc(l.title) + '</div>' +
+            '<div class="lc-info">' + (l.photo ? '<img src="' + esc(l.photo) + '" loading="lazy">' : '') +
+            '<div class="nm">' + esc(l.name) + badge(l.verified) + '<small>@' + esc(l.username) + '</small></div></div>';
+          const vid = card.querySelector('video');
+          card.addEventListener('mouseenter', () => vid.play().catch(() => {}));
+          card.addEventListener('mouseleave', () => vid.pause());
+          card.addEventListener('click', () => vid.paused ? vid.play().catch(() => {}) : vid.pause());
+          liveRow.appendChild(card);
+        });
+        if (!lives.length) {
+          document.getElementById('liveCount').parentElement.style.display = 'none';
+          liveRow.style.display = 'none';
+        }
+
+        document.getElementById('reelCount').textContent = reels.length ? reels.length + ' reels' : '';
+        reelRow.innerHTML = '';
+        reels.forEach(r => reelRow.appendChild(reelCard(r)));
+        if (!reels.length) {
+          document.getElementById('reelCount').parentElement.style.display = 'none';
+          reelRow.style.display = 'none';
+        } else {
+          lastReelId = reels[reels.length - 1].id;
+          document.getElementById('loadMoreWrap').style.display = '';
+        }
+      }).catch(() => { /* keep section hidden if API fails */ });
+
+      let lastReelId = null, likedIds = new Set(), followedIds = new Set();
+
+      function reelCard(r) {
+        const a = document.createElement('a');
+        a.className = 'reel-card';
+        a.href = r.url || '#';
+        a.innerHTML =
+          '<button class="rc-like' + (likedIds.has(r.id) ? ' liked' : '') + '" title="Like"><i class="bi bi-heart-fill"></i></button>' +
+          (r.thumbnail ? '<img class="rthumb" src="' + esc(r.thumbnail) + '" loading="lazy">' : '') +
+          '<div class="rc-shade"></div>' +
+          '<div class="rc-play"><i class="bi bi-play-fill"></i></div>' +
+          '<div class="rc-stats"><span class="lc-n"><i class="bi bi-heart-fill" style="color:#ff3d71"></i> ' + fmt(r.likes) + '</span>' +
+          '<span><i class="bi bi-play-fill"></i> ' + fmt(r.views) + '</span></div>' +
+          '<div class="rc-info">' + (r.photo ? '<img src="' + esc(r.photo) + '" loading="lazy">' : '') +
+          '<div class="nm">' + esc(r.username) + badge(r.verified) + '</div>' +
+          (r.user_id ? '<button class="rc-follow' + (followedIds.has(r.user_id) ? ' done' : '') + '">' +
+            (followedIds.has(r.user_id) ? 'Following' : 'Follow') + '</button>' : '') + '</div>';
+        const likeBtn = a.querySelector('.rc-like');
+        const fBtn = a.querySelector('.rc-follow');
+        likeBtn.addEventListener('click', e => {
+          e.preventDefault(); e.stopPropagation();
+          if (!Auth.token) { openAuth('login'); return; }
+          if (likedIds.has(r.id)) return;
+          api('/api/post/likePost', { post_id: r.id }, true).then(j => {
+            if (j.status || /already/i.test(j.message || '')) {
+              likedIds.add(r.id); likeBtn.classList.add('liked');
+              const lc = a.querySelector('.lc-n');
+              if (lc && j.status) lc.innerHTML = '<i class="bi bi-heart-fill" style="color:#ff3d71"></i> ' + fmt(r.likes + 1);
+              miniToast('Liked!', 'bi-heart-fill');
+            } else miniToast(j.message || 'Could not like', 'bi-exclamation-circle');
+          });
+        });
+        if (fBtn) fBtn.addEventListener('click', e => {
+          e.preventDefault(); e.stopPropagation();
+          if (!Auth.token) { openAuth('login'); return; }
+          if (followedIds.has(r.user_id)) return;
+          api('/api/user/followUser', { user_id: r.user_id }, true).then(j => {
+            if (j.status || /already/i.test(j.message || '')) {
+              followedIds.add(r.user_id); fBtn.classList.add('done'); fBtn.textContent = 'Following';
+              miniToast('Following @' + r.username, 'bi-person-check-fill');
+            } else miniToast(j.message || 'Could not follow', 'bi-exclamation-circle');
+          });
+        });
+        return a;
+      }
+
+      document.getElementById('loadMoreBtn').addEventListener('click', function () {
+        if (!lastReelId) return;
+        const btn = this;
+        btn.disabled = true; btn.innerHTML = '<i class="bi bi-arrow-repeat"></i>Loading...';
+        fetch('/api/public/trending?limit=8&lives=0&last_id=' + lastReelId)
+          .then(r => r.json()).then(j => {
+            btn.disabled = false; btn.innerHTML = '<i class="bi bi-plus-circle"></i>Load more reels';
+            const reels = (j && j.data && j.data.reels) || [];
+            if (!reels.length) { btn.parentElement.style.display = 'none'; return; }
+            reels.forEach(r => reelRow.appendChild(reelCard(r)));
+            lastReelId = reels[reels.length - 1].id;
+            if (reels.length < 8) btn.parentElement.style.display = 'none';
+          }).catch(() => {
+            btn.disabled = false; btn.innerHTML = '<i class="bi bi-plus-circle"></i>Load more reels';
+          });
+      });
+    })();
   </script>
 </body>
 </html>
