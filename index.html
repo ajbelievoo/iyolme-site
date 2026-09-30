@@ -1299,7 +1299,7 @@
     refreshAuthUI();
 
     // ---------- Google sign-in (same account system as the app) ----------
-    const GOOGLE_CLIENT_ID = '759752024135-qfm2fahpo2bpcn5baceoijtoh1gp74n5.apps.googleusercontent.com';
+    const GOOGLE_CLIENT_ID = '759752024135-f4o5leoj4011fff2rd9seh4u0t067bne.apps.googleusercontent.com';
     function handleGoogleCredential(resp) {
       authErr('');
       api('/api/user/googleWebLogin', { credential: resp.credential }).then(j => {
