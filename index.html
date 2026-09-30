@@ -647,6 +647,24 @@
     .auth-close:hover { color:#fff; border-color:var(--border-hi); }
     .auth-note { margin-top:14px; font-size:.76rem; color:var(--muted); text-align:center; }
     .auth-note a { color:var(--cyan); font-weight:700; }
+    .auth-divider {
+      display:flex; align-items:center; gap:12px; margin:20px 0 14px;
+      color:var(--muted); font-size:.72rem; text-transform:uppercase; letter-spacing:.08em;
+    }
+    .auth-divider::before, .auth-divider::after {
+      content:""; flex:1; height:1px; background:var(--border);
+    }
+    .google-btn-wrap { display:flex; justify-content:center; min-height:44px; margin-bottom:10px; }
+    .btn-social {
+      display:flex; align-items:center; justify-content:center; gap:10px; width:100%;
+      padding:12px 16px; border-radius:12px; font-weight:700; font-size:.88rem;
+      border:1px solid var(--border-hi); background:rgba(139,92,246,.10); color:#fff;
+      text-decoration:none; cursor:pointer; transition:.25s; margin-bottom:10px;
+    }
+    .btn-social:hover { background:rgba(139,92,246,.22); transform:translateY(-1px); }
+    .btn-social img { width:22px; height:22px; border-radius:6px; }
+    .btn-social.hitune { border-color:rgba(0,183,255,.45); background:rgba(0,183,255,.08); }
+    .btn-social.hitune:hover { background:rgba(0,183,255,.18); }
 
     .reel-card { position:relative; }
     .rc-like {
@@ -1073,6 +1091,14 @@
         <button class="auth-submit" type="submit">Create My Iyolme ID</button>
         <div class="auth-note">Already have an ID? <a href="#" id="goLogin">Sign in</a></div>
       </form>
+
+      <div class="auth-divider"><span>or continue with</span></div>
+      <div id="googleBtnWrap" class="google-btn-wrap"></div>
+      <a class="btn-social hitune" href="/hitune/login?web=1">
+        <img src="https://music.hitune.in/logo.png" alt="" onerror="this.style.display='none'">
+        <span>HiTune Music</span>
+      </a>
+      <div class="auth-note" style="margin-top:8px">Same HiTune account you use in the music app.</div>
     </div>
   </div>
 
@@ -1180,6 +1206,8 @@
     }
     function refreshAuthUI() {
       const u = Auth.user, chip = document.getElementById('userChip'), btn = document.getElementById('signInBtn');
+      const next = sessionStorage.getItem('iyolme_next');
+      if (u && Auth.token && next) { sessionStorage.removeItem('iyolme_next'); location.href = next; }
       if (u && Auth.token) {
         btn.style.display = 'none'; chip.style.display = 'flex';
         document.getElementById('ucName').textContent = u.fullname || u.username || 'Me';
@@ -1269,6 +1297,42 @@
       }).catch(() => { btn.disabled = false; authErr('Network error, try again.'); });
     });
     refreshAuthUI();
+
+    // ---------- Google sign-in (same account system as the app) ----------
+    const GOOGLE_CLIENT_ID = '759752024135-qfm2fahpo2bpcn5baceoijtoh1gp74n5.apps.googleusercontent.com';
+    function handleGoogleCredential(resp) {
+      authErr('');
+      api('/api/user/googleWebLogin', { credential: resp.credential }).then(j => {
+        if (j.status && j.data && j.data.token) {
+          Auth.save(j.data.token, j.data);
+          authOverlay.classList.remove('open'); refreshAuthUI();
+          miniToast('Welcome, ' + (j.data.fullname || j.data.username) + '!');
+        } else authErr(j.message || 'Google sign-in failed.');
+      }).catch(() => authErr('Network error, try again.'));
+    }
+    function initGoogleBtn() {
+      if (!window.google || !google.accounts || !google.accounts.id) return false;
+      try {
+        google.accounts.id.initialize({ client_id: GOOGLE_CLIENT_ID, callback: handleGoogleCredential });
+        google.accounts.id.renderButton(document.getElementById('googleBtnWrap'),
+          { theme: 'filled_black', size: 'large', shape: 'pill', width: 300, text: 'continue_with' });
+        return true;
+      } catch (e) { return false; }
+    }
+    (function loadGis() {
+      const s = document.createElement('script');
+      s.src = 'https://accounts.google.com/gsi/client';
+      s.onload = () => { if (!initGoogleBtn()) document.getElementById('googleBtnWrap').innerHTML = '<div class="auth-note">Google sign-in unavailable right now</div>'; };
+      s.onerror = () => { document.getElementById('googleBtnWrap').innerHTML = '<div class="auth-note">Google sign-in unavailable right now</div>'; };
+      document.head.appendChild(s);
+    })();
+
+    // ?login=1 deep-link (e.g. back from /sso-hitune.html)
+    if (new URLSearchParams(location.search).get('login') === '1') {
+      const n = new URLSearchParams(location.search).get('next');
+      if (n) sessionStorage.setItem('iyolme_next', n);
+      openAuth('login');
+    }
 
     // ---------- Trending (live API data) ----------
     (function loadTrending() {

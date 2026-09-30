@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Iyolme → HiTune Music</title>
+  <link rel="icon" href="/brand/favicon.png">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <style>
+    :root { --bg:#05081a; --card:#0c1334; --border:rgba(139,92,246,.25); --cyan:#00b7ff; --magenta:#e056fd; --muted:#93a0cf; }
+    * { margin:0; box-sizing:border-box; font-family:'Inter',system-ui,sans-serif; }
+    body { min-height:100vh; display:flex; align-items:center; justify-content:center; background:radial-gradient(900px 500px at 20% 0%, rgba(139,92,246,.18), transparent 60%), radial-gradient(800px 500px at 90% 100%, rgba(0,183,255,.14), transparent 60%), var(--bg); color:#fff; padding:20px; }
+    .card { background:rgba(12,19,52,.85); border:1px solid var(--border); border-radius:22px; padding:44px 36px; max-width:420px; width:100%; text-align:center; backdrop-filter:blur(12px); box-shadow:0 30px 80px rgba(0,0,0,.5); }
+    .logo { width:64px; height:64px; border-radius:18px; margin-bottom:18px; }
+    h1 { font-size:1.35rem; margin-bottom:10px; }
+    p { color:var(--muted); font-size:.9rem; line-height:1.55; margin-bottom:22px; }
+    .spin { width:34px; height:34px; border:3px solid rgba(139,92,246,.25); border-top-color:var(--magenta); border-radius:50%; margin:0 auto 18px; animation:sp 0.8s linear infinite; }
+    @keyframes sp { to { transform:rotate(360deg); } }
+    .btn { display:inline-flex; align-items:center; gap:9px; padding:13px 26px; border-radius:12px; font-weight:700; font-size:.9rem; text-decoration:none; background:linear-gradient(90deg,var(--cyan),var(--magenta)); color:#05081a; border:0; cursor:pointer; }
+    .btn:hover { filter:brightness(1.12); }
+    .err { color:#ff6b8b; font-size:.85rem; margin-bottom:16px; }
+    a.link { color:var(--cyan); }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <img class="logo" src="/brand/logo-icon.png" alt="Iyolme">
+    <h1>Connecting to HiTune Music</h1>
+    <div id="working">
+      <div class="spin"></div>
+      <p>Verifying your IyolMe account and opening HiTune Music…</p>
+    </div>
+    <div id="needLogin" style="display:none">
+      <p>You need to sign in to your IyolMe account first. After signing in you'll be brought straight back here.</p>
+      <a class="btn" id="goLogin" href="/?login=1&next=/sso-hitune.html"><i class="bi bi-person-circle"></i>Sign in to Iyolme</a>
+    </div>
+    <div id="failed" style="display:none">
+      <div class="err" id="errMsg">Something went wrong.</div>
+      <a class="btn" href="javascript:location.reload()"><i class="bi bi-arrow-clockwise"></i>Try again</a>
+    </div>
+  </div>
+  <script>
+    (async function () {
+      const token = localStorage.getItem('iyolme_token');
+      if (!token) {
+        document.getElementById('working').style.display = 'none';
+        document.getElementById('needLogin').style.display = '';
+        return;
+      }
+      try {
+        const r = await fetch('/api/user/mintSsoGrant', {
+          method: 'POST',
+          headers: { 'x-api-key': 'retry123', 'authtoken': token },
+          body: new URLSearchParams({})
+        });
+        const j = await r.json();
+        const grant = j && j.data && j.data.grant;
+        if (!j.status || !grant) throw new Error(j.message || 'Could not create session');
+        location.href = 'https://music.hitune.in/api/iyol/iyolme_login?grant=' + encodeURIComponent(grant);
+      } catch (e) {
+        document.getElementById('working').style.display = 'none';
+        document.getElementById('failed').style.display = '';
+        document.getElementById('errMsg').textContent = e.message || 'Something went wrong.';
+      }
+    })();
+  </script>
+</body>
+</html>
