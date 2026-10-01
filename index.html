@@ -3,6 +3,23 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script>
+  (function(){
+    var d=document.documentElement,t='dark';
+    try{t=localStorage.getItem('iyolme-theme')||'dark'}catch(e){}
+    d.setAttribute('data-theme',t);
+    var m=function(n){var mt=document.querySelector('meta[name="theme-color"]');if(mt)mt.setAttribute('content',n==='light'?'#f5f7ff':'#05081a');};
+    m(t);
+    document.addEventListener('click',function(e){
+      var b=e.target.closest('.theme-toggle');if(!b)return;
+      var n=d.getAttribute('data-theme')==='light'?'dark':'light';
+      d.setAttribute('data-theme',n);
+      try{localStorage.setItem('iyolme-theme',n)}catch(err){}
+      m(n);
+      var ic=b.querySelector('i');if(ic){ic.className=n==='light'?'bi bi-moon-stars':'bi bi-brightness-high';}
+    });
+  })();
+  </script>
   <title>Iyolme — Go Live. Create. Earn.</title>
   <meta name="description" content="Iyolme is a next-gen live streaming and short-video social app. Go live, post reels & stories, battle in PK, join audio rooms, send gifts — and turn your content into real earnings.">
   <link rel="canonical" href="https://iyolme.com/">
@@ -705,6 +722,42 @@
       .btn-signin { padding:9px 14px; font-size:.8rem; }
       .user-chip .un { display:none; }
     }
+
+    /* ---------- Light theme ---------- */
+    [data-theme="light"] {
+      --bg-0: #f4f6ff;
+      --bg-1: #e9edfb;
+      --panel: rgba(255,255,255,.78);
+      --panel-2: rgba(255,255,255,.9);
+      --border: rgba(40,60,140,.16);
+      --text: #151b3a;
+      --muted: #5a6694;
+    }
+    [data-theme="light"] body::before {
+      background:
+        radial-gradient(900px 600px at 12% -8%, rgba(0,180,255,.12), transparent 60%),
+        radial-gradient(1000px 700px at 88% 8%, rgba(255,46,209,.10), transparent 60%),
+        radial-gradient(800px 600px at 50% 115%, rgba(255,176,32,.10), transparent 60%),
+        var(--bg-0);
+    }
+    [data-theme="light"] body::after {
+      background-image:
+        linear-gradient(rgba(40,60,140,.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(40,60,140,.06) 1px, transparent 1px);
+      mask-image: radial-gradient(ellipse 90% 60% at 50% 0%, #000 30%, transparent 75%);
+    }
+    [data-theme="light"] .nav-wrap { background: rgba(244,246,255,.78); }
+    [data-theme="light"] .btn-ghost { color: var(--blue); border-color: rgba(60,90,200,.3); background: rgba(60,90,200,.06); }
+    [data-theme="light"] ::selection { background: rgba(139,92,246,.3); }
+
+    .theme-toggle {
+      width: 40px; height: 40px; border-radius: 12px; cursor: pointer;
+      border: 1px solid var(--border); background: var(--panel);
+      color: var(--text); font-size: 1.05rem; display: inline-flex;
+      align-items: center; justify-content: center;
+      transition: border-color .2s, transform .18s var(--ease);
+    }
+    .theme-toggle:hover { border-color: var(--border-hi); transform: translateY(-1px); }
   </style>
 </head>
 <body>
@@ -723,6 +776,7 @@
         <a href="#faq">FAQ</a>
       </div>
       <div class="nav-actions">
+        <button class="theme-toggle" type="button" aria-label="Toggle theme"><i class="bi bi-brightness-high"></i></button>
         <button id="signInBtn" class="btn-signin" type="button"><i class="bi bi-person-circle"></i>Sign In</button>
         <div class="user-chip" id="userChip">
           <img id="ucAvatar" alt="" style="display:none">
